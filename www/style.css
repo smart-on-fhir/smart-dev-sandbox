@@ -6,7 +6,7 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 html, body {
-    height     : 100%;
+    min-height : 100%;
     width      : 100%;
     margin     : 0;
     padding    : 0;
@@ -20,13 +20,13 @@ html, body {
 
 .wrapper {
     min-height: 100%;
-    overflow  : auto;
     display   : flex;
     flex-flow : column;
     flex      : 1;
+    flex-wrap : wrap;
 }
 
-/* launch ------------------------------------------------------- */
+/* launch ------------------------------------------------------------------- */
 .launch {
     border         : 5px solid transparent;
     margin         : 20px;
@@ -41,14 +41,25 @@ html, body {
     flex           : 0 1 150px;
     justify-content: center;
     min-height     : 150px;
-    max-width: 700px;
-    align-self: center;
+    max-width      : 700px;
+    align-self     : center;
+}
+.launch:after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 195px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: #FFF;
+    box-shadow: 0 4px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .launch svg {
     display       : flex;
     vertical-align: middle;
-    flex          : 0 1 10vw;
+    flex          : 0 1 8vw;
     min-height    : 128px;
     min-width     : 128px;
 }
@@ -73,7 +84,7 @@ html, body {
 .launch h1 {
     display    : flex;
     line-height: 1.2;
-    font-size  : 5vw;
+    font-size  : 4vw;
     margin     : 0;
 }
 
@@ -83,26 +94,29 @@ html, body {
     text-shadow : 0 1px 0 #FFF;
 }
 
-/* bottom-row ----------------------------------------------------*/
+/* bottom-row ----------------------------------------------------------------*/
 .bottom-row {
     display        : flex;
-    flex           : 2 1 0px;
-    background     : linear-gradient(#EEE, #FFF);
+    flex           : 1 1 0px;
+    background     : #EEE linear-gradient(#EEE 20px, #FFF);
     flex-wrap      : wrap;
     justify-content: center;
-    box-shadow     : 0 7px 5px -5px rgba(0, 0, 0, 0.3) inset;
+    align-items    : stretch;
+    overflow       : auto;
 }
 
 .stu2, .stu3 {
-    display       : flex;
-    flex          : 0 1 200px;
-    flex-flow     : column;
-    border        : 5px solid #EEE;
-    border-radius : 5px;
-    overflow      : auto;
-    margin        : 20px;
-    min-width     : 320px;
-    padding-bottom: 10px;
+    display        : flex;
+    flex           : 0 1 200px;
+    flex-flow      : column;
+    border         : 5px solid #EEE;
+    border-radius  : 5px;
+    overflow       : auto;
+    margin         : 20px;
+    min-width      : 320px;
+    padding-bottom : 10px;
+    justify-content: center;
+    min-height     : 300px;
 }
 
 .stu2 svg, .stu3 svg {
@@ -131,5 +145,18 @@ html, body {
 
 .color-accent-2 { color:#FF931E; }
 .fill-accent-2 { fill:#FF931E; }
-.color-accent-2 { color: #005264; } 
+.color-accent-1 { color: #005264; } 
 .fill-accent-1 { fill: #005264; }
+
+/* footer ------------------------------------------------------------------- */
+.footer {
+    background     : #005264;
+    color          : #CCC;
+    text-align     : center;
+    display        : flex;
+    flex           : 0 0 50px;
+    align-items    : center;
+    align-content  : center;
+    justify-content: center;
+    font-size      : small;
+}
