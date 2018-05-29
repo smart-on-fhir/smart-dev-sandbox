@@ -59,7 +59,7 @@ html, body {
 .launch svg {
     display       : flex;
     vertical-align: middle;
-    flex          : 0 1 8vw;
+    flex          : 1 1 8vw;
     min-height    : 128px;
     min-width     : 128px;
 }
@@ -68,8 +68,9 @@ html, body {
     display   : flex;
     align-self: center;
     flex-flow : column;
-    flex      : 0 1 0px;
+    flex      : 4 1 0px;
     text-align: left;
+    padding   : 0 2em 0 0;
 }
 
 .launch p {
@@ -98,11 +99,12 @@ html, body {
 .bottom-row {
     display        : flex;
     flex           : 1 1 0px;
-    background     : #EEE linear-gradient(#EEE 20px, #FFF);
+    background     : #EEE linear-gradient(#EEE 150px, #FFF);
     flex-wrap      : wrap;
     justify-content: center;
     align-items    : stretch;
     overflow       : auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .stu2, .stu3 {
@@ -111,7 +113,6 @@ html, body {
     flex-flow      : column;
     border         : 5px solid #EEE;
     border-radius  : 5px;
-    overflow       : auto;
     margin         : 20px;
     min-width      : 320px;
     padding-bottom : 10px;
