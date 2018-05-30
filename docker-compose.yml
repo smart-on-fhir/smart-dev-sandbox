@@ -47,11 +47,13 @@ services:
       LAUNCHER_PORT   : "${LAUNCHER_PORT}"
       FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
     command: sh -c "envsubst < /usr/share/nginx/html/config/dstu2-local.tpl > /usr/share/nginx/html/config/dstu2-local.json5 && envsubst < /usr/share/nginx/html/config/stu3-local.tpl > /usr/share/nginx/html/config/stu3-local.json5 && nginx -g 'daemon off;'"
-  
+
   fhir-viewer: # Fhir Viewer ---------------------------------------------------
     image: smartonfhir/fhir-viewer
     ports:
       - "${FHIR_VIEWER_PORT}:80"
+    volumes:
+      - ./known-servers.js:/usr/share/nginx/html/known-servers.js
 
   index: # Index page ----------------------------------------------------------
     image: nginx:alpine
