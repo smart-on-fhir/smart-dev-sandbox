@@ -47,6 +47,7 @@ html, body {
     align-self     : center;
     width          : 90%;
 }
+
 .launch:after {
     content: "";
     position: absolute;
@@ -57,6 +58,7 @@ html, body {
     height: 5px;
     background: #FFF;
     box-shadow: 0 4px 5px 0px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
 }
 
 .launch svg {
@@ -89,6 +91,7 @@ html, body {
     display    : flex;
     line-height: 1.2;
     font-size  : 4vw;
+    font-size  : calc(2vw + 14px);
     margin     : 0;
 }
 
