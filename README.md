@@ -1,5 +1,6 @@
 # smart-dev-sandbox
 Docker based sandbox for smart apps
+<img width="869" alt="screen shot 2018-06-04 at 12 09 26 pm" src="https://user-images.githubusercontent.com/1119082/40930994-573a3054-67f7-11e8-9f75-b6190164d991.png">
 
 # System requirements
 Docker with at least 3 GB of dedicated memory and 2 or more CPU-s.
