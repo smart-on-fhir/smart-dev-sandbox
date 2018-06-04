@@ -1,4 +1,4 @@
-# simple-sandbox
+# smart-dev-sandbox
 Docker based sandbox for smart apps
 
 # System requirements
