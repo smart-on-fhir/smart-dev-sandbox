@@ -30,8 +30,10 @@ html, body {
 
 /* launch ------------------------------------------------------------------- */
 .launch {
-    border         : 5px solid transparent;
+    border         : 2px solid rgb(230, 230, 230);
+    background     : linear-gradient(rgba(255, 255, 255, 0), rgb(245, 245, 245));
     margin         : 20px;
+    padding        : 3px;
     overflow       : auto;
     text-align     : center;
     border-radius  : 5px;
@@ -96,9 +98,10 @@ html, body {
 }
 
 .launch:hover {
-    border-color: rgba(0, 82, 100, 0.34);
+    border      : 5px solid rgba(0, 82, 100, 0.34);
     background  : linear-gradient(rgba(0, 82, 100, 0.055), rgba(0, 82, 100, 0.11));
     text-shadow : 0 1px 0 #FFF;
+    padding     : 0;
 }
 
 /* bottom-row ----------------------------------------------------------------*/
