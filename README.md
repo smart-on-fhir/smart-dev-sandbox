@@ -60,3 +60,7 @@ git clean -fdx
 docker-compose up
 ```
 
+### Using Empty Servers
+By default the servers start with pre-populated databases. If want, you can start with empty server(s) instead.
+To do so, edit the `.env` file and set `STU2_DATA_DIR` to `stu2-data-empty` and/or `STU3_DATA_DIR` to `stu3-data-empty`.
+

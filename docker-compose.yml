@@ -16,7 +16,6 @@ services:
       PICKER_CONFIG_R2       : "dstu2-local"
       PICKER_CONFIG_R3       : "stu3-local"
       PICKER_ORIGIN          : "http://localhost:${PATIENT_BROWSER_PORT}"
-
     ports:
       - "${LAUNCHER_PORT}:80"
     depends_on:
