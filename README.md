@@ -56,6 +56,7 @@ If you mess things up - don't worry. Just stop the sandbox, reset the repository
 ```sh
 git reset
 git checkout .
-docker-compose up --remove-orphans
+git clean -fdx
+docker-compose up
 ```
 
