@@ -34,7 +34,7 @@ Stopping smart-dev-sandbox_patient-browser_1  ... done
 Stopping smart-dev-sandbox_index_1            ... done
 ``` 
 If you don't see such output, then you will have to stop the services manually. To do so run
-`docker ps` and then for each container with name starting with `smart-dev-sandbox_` run
+`docker-compose down` or `docker ps` and then for each container with name starting with `smart-dev-sandbox_` run
 ```
 docker stop {CONTAINER ID}
 ```
