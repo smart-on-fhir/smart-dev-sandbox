@@ -47,7 +47,7 @@ These folders will contain the Derby Database files which you must not modify.
 
 
 #### Add/Edit/Delete Resources
-Using the FHIR API. Changes will be written to the database which lives on your host OS, therefore, changes will persist if you restart the sandbox.
+Use the FHIR API to make changes. Changes will be written to the database which lives on your host OS, therefore, they will persist if you restart the sandbox.
 
 
 #### Reset Data Changes
