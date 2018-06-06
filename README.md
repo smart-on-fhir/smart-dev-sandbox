@@ -60,6 +60,6 @@ docker-compose up
 ```
 
 ### Using Empty Servers
-By default the servers start with pre-populated databases. However, you may also start with empty server(s).
+By default the servers start with pre-populated databases. However, you may also start with your server(s) empty.
 To do so, edit the `.env` file and set `STU2_DATA_DIR` to `stu2-data-empty` and/or `STU3_DATA_DIR` to `stu3-data-empty`.
 
