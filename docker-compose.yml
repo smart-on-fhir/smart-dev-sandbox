@@ -31,7 +31,7 @@ services:
     ports:
       - "${HAPI_PORT_STU3}:${HAPI_PORT_STU3}"
     volumes:
-      - "./${STU2_DATA_DIR}:/data:delegated"
+      - "./${STU3_DATA_DIR}:/data:delegated"
 
   stu2: # HAPI STU2 ------------------------------------------------------------
     image: smartonfhir/hapi:r2-empty
@@ -40,7 +40,7 @@ services:
     ports:
       - "${HAPI_PORT_STU2}:${HAPI_PORT_STU2}"
     volumes:
-      - "./${STU3_DATA_DIR}:/data:delegated"
+      - "./${STU2_DATA_DIR}:/data:delegated"
 
   patient-browser: # Patient Browser -------------------------------------------
     image: smartonfhir/patient-browser
