@@ -43,16 +43,15 @@ docker stop {CONTAINER ID}
 
 ### FHIR Data ###
 The two HAPI FHIR servers will make their data available in the `stu2-data` and `stu3-data`.
-This folders will contain the Derby Database files which you must not modify.
+These folders will contain the Derby Database files which you must not modify.
 
 
 #### Add/Edit/Delete Resources
-Use the FHIR API for that. The changes will be written to the database, which lives on your host OS.
-Thanks to that, the changes will persist if you restart the sandbox.
+Using the FHIR API. Changes will be written to the database which lives on your host OS, therefore, changes will persist if you restart the sandbox.
 
 
 #### Reset Data Changes
-If you mess things up - don't worry. Just stop the sandbox, reset the repository and start the sandbox again:
+If you make a mistake - don't worry. Just stop the sandbox, reset the repository and start the sandbox again:
 ```sh
 git reset
 git checkout .
@@ -61,6 +60,6 @@ docker-compose up
 ```
 
 ### Using Empty Servers
-By default the servers start with pre-populated databases. If want, you can start with empty server(s) instead.
+By default the servers start with pre-populated databases. However, you may also start with empty server(s).
 To do so, edit the `.env` file and set `STU2_DATA_DIR` to `stu2-data-empty` and/or `STU3_DATA_DIR` to `stu3-data-empty`.
 
