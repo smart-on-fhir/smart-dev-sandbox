@@ -1,3 +1,4 @@
+node_modules
 patient-browser/dstu2-local.json5
 patient-browser/stu3-local.json5
 www/index.html
