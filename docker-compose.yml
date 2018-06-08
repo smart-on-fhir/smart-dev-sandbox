@@ -27,20 +27,24 @@ services:
   stu3: # HAPI STU3 ------------------------------------------------------------
     image: smartonfhir/hapi:r3-empty
     environment:
-      PORT: $HAPI_PORT_STU3
+      PORT        : $HAPI_PORT_STU3
+      STU3_ENABLED: $STU3_ENABLED
     ports:
       - "${HAPI_PORT_STU3}:${HAPI_PORT_STU3}"
     volumes:
       - "./${STU3_DATA_DIR}:/data:delegated"
+    command: bash -c "if ('$STU3_ENABLED' == 'true'); then bash /app/cmd; fi"
 
   stu2: # HAPI STU2 ------------------------------------------------------------
     image: smartonfhir/hapi:r2-empty
     environment:
-      PORT: $HAPI_PORT_STU2
+      PORT        : $HAPI_PORT_STU2
+      STU2_ENABLED: $STU2_ENABLED
     ports:
       - "${HAPI_PORT_STU2}:${HAPI_PORT_STU2}"
     volumes:
       - "./${STU2_DATA_DIR}:/data:delegated"
+    command: bash -c "if ('$STU2_ENABLED' == 'true'); then bash /app/cmd; fi"
 
   patient-browser: # Patient Browser -------------------------------------------
     image: smartonfhir/patient-browser:node
@@ -74,5 +78,7 @@ services:
       HAPI_PORT_STU3      : "${HAPI_PORT_STU3}"
       PATIENT_BROWSER_PORT: "${PATIENT_BROWSER_PORT}"
       FHIR_VIEWER_PORT    : "${FHIR_VIEWER_PORT}"
+      STU2_ENABLED        : "${STU2_ENABLED}"
+      STU3_ENABLED        : "${STU3_ENABLED}"
       ISSUES_URL          : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
     command: sh -c "envsubst < /usr/share/nginx/html/template.html > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"

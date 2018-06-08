@@ -126,13 +126,14 @@ html, body {
     min-width      : 320px;
     padding-bottom : 10px;
     justify-content: center;
-    min-height     : 300px;
+    min-height     : 352px;
+    text-shadow    : 0 1px 0 #FFF;
 }
 
 .stu2 svg, .stu3 svg {
     display   : flex;
     flex      : 0 1 256px;
-    margin    : 20px auto;
+    margin    : 0 auto 20px;
     min-height: 128px;
 }
 
@@ -153,10 +154,58 @@ html, body {
     color  :#FF931E;
 }
 
+h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    /* margin: 0; */
+}
+
+.label {
+    padding: 1px 5px;
+    margin: -1px 0;
+    border-radius: 6px;
+    text-shadow: none;
+    color: #FFF;
+    line-height: 1;
+    vertical-align: baseline;
+}
+.label-accent-2 {
+    background: #FF931E;
+}
+
 .color-accent-2 { color:#FF931E; }
 .fill-accent-2 { fill:#FF931E; }
 .color-accent-1 { color: #005264; } 
 .fill-accent-1 { fill: #005264; }
+
+.enabled-false {
+    pointer-events: none;
+}
+
+.enabled-false *,
+.enabled-false a,
+.enabled-false a:before,
+.enabled-false .color-accent-1,
+.enabled-false .color-accent-2 {
+    color: #999;
+}
+
+.enabled-false text, .enabled-false rect, .enabled-false path {
+    fill: #AAA;
+}
+
+.enabled-false .label-accent-2 {
+    background: #AAA;
+    color: #FFF;
+}
+
+.offline {
+    text-shadow: none;
+}
+
+.enabled-true .offline {
+    display: none;
+}
 
 /* footer ------------------------------------------------------------------- */
 .footer {
