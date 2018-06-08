@@ -63,3 +63,16 @@ docker-compose up
 By default the servers start with pre-populated databases. However, you may also start with your server(s) empty.
 To do so, edit the `.env` file and set `STU2_DATA_DIR` to `stu2-data-empty` and/or `STU3_DATA_DIR` to `stu3-data-empty`.
 
+### Patient Browser Configuration
+The patient browser can search for patients by many factors, including medical condition. However, this can only work in real time if the list of conditions available on the server is known ahead of time. That is why that list is part of the configuration file of the patient browser.
+
+This sandbox comes with pre-generated config files that contain the conditions available on both servers. After you use those servers the conditions might go out of sync.
+A script can be used to fetch the new conditions list and update the config files. To do so you can use the following commands:
+```sh
+# STU2
+docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/config/sync-conditions.js -s stu2
+
+# STU3
+docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/config/sync-conditions.js -s stu3
+```
+

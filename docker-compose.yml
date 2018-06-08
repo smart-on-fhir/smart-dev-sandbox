@@ -43,7 +43,7 @@ services:
       - "./${STU2_DATA_DIR}:/data:delegated"
 
   patient-browser: # Patient Browser -------------------------------------------
-    image: smartonfhir/patient-browser
+    image: smartonfhir/patient-browser:node
     ports:
       - "${PATIENT_BROWSER_PORT}:80"
     volumes:
@@ -51,6 +51,8 @@ services:
     environment:
       LAUNCHER_PORT   : "${LAUNCHER_PORT}"
       FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
+      HAPI_PORT_STU3  : "${HAPI_PORT_STU3}"
+      HAPI_PORT_STU2  : "${HAPI_PORT_STU2}"
     command: sh -c "envsubst < /usr/share/nginx/html/config/dstu2-local.tpl > /usr/share/nginx/html/config/dstu2-local.json5 && envsubst < /usr/share/nginx/html/config/stu3-local.tpl > /usr/share/nginx/html/config/stu3-local.json5 && nginx -g 'daemon off;'"
 
   fhir-viewer: # Fhir Viewer ---------------------------------------------------
