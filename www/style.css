@@ -120,14 +120,15 @@ html, body {
     display        : flex;
     flex           : 0 1 200px;
     flex-flow      : column;
-    border         : 5px solid #EEE;
+    border         : 2px solid rgba(235, 235, 235);
     border-radius  : 5px;
     margin         : 20px;
-    min-width      : 320px;
+    min-width      : 330px;
     padding-bottom : 10px;
     justify-content: center;
-    min-height     : 352px;
+    min-height     : 367px;
     text-shadow    : 0 1px 0 #FFF;
+    box-shadow     : 0 0 0 4px #FFF inset;
 }
 
 .stu2 svg, .stu3 svg {
@@ -141,12 +142,14 @@ html, body {
     color          : #005264;
     display        : block;
     padding        : 8px 20px;
+    margin         : 0 4px;
     text-decoration: none;
     font-size      : 16px;
 }
 
 .bottom-row a:hover {
-    background: #EEE;
+    background: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
 .bottom-row a:before {
