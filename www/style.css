@@ -120,7 +120,7 @@ html, body {
     display        : flex;
     flex           : 0 1 200px;
     flex-flow      : column;
-    border         : 2px solid rgba(235, 235, 235);
+    border         : 2px solid rgb(235, 235, 235);
     border-radius  : 5px;
     margin         : 20px;
     min-width      : 330px;
