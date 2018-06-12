@@ -42,7 +42,7 @@ docker stop {CONTAINER ID}
 
 
 ### FHIR Data ###
-The two HAPI FHIR servers will make their data available in the `stu2-data` and `stu3-data` folders.
+The two HAPI FHIR servers will make their data available in the `stu2-data/target` and `stu3-data/target` folders.
 These folders will contain the Derby Database files which you must not modify. You can however copy the entire folder as a form of backup if you need to. Replacing that folder with an older version (while the server is stopped) can be used as a way to restore the data to its previous state.
 
 
