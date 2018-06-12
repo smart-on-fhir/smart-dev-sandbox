@@ -2,7 +2,7 @@
 Docker based sandbox for smart apps
 <img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301567-4b14d47e-6e36-11e8-8192-5a4b7e1c8fda.png">
 
-# System requirements
+## System requirements
 Docker with at least 2.5 GB of dedicated memory and 2 or more CPU-s. Note that if you don't have enough resources you can disable one of the fhir servers.
 If you do have enough resources however, we recommend that you use 3 CPU cores which will give you significant performance improvement.
 The project is compatible with Docker 17.04.0+ but have only been tested with Docker 18.
