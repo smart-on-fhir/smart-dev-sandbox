@@ -1,6 +1,6 @@
 # smart-dev-sandbox
 Docker based sandbox for smart apps
-<img width="869" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/40930994-573a3054-67f7-11e8-9f75-b6190164d991.png">
+<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41300790-95ac3984-6e34-11e8-92bf-50780c9db570.png">
 
 # System requirements
 Docker with at least 2.5 GB of dedicated memory and 2 or more CPU-s. Note that if you don't have enough resources you can disable one of the fhir servers.
