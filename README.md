@@ -1,4 +1,4 @@
-<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301567-4b14d47e-6e36-11e8-8192-5a4b7e1c8fda.png"/>
+<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301806-ea2b711c-6e36-11e8-8a40-4ee47286741d.png"/>
 
 # smart-dev-sandbox
 Docker based sandbox for smart apps
