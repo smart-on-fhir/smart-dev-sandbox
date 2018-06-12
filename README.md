@@ -38,7 +38,7 @@ If you don't see such output, then you will have to stop the services manually. 
 ```
 docker stop {CONTAINER ID}
 ```
-(replace `CONTAINER ID` with the current container id).
+(replace `{CONTAINER ID}` with the current container id).
 
 
 ### FHIR Data ###
