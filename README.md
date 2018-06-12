@@ -108,3 +108,9 @@ docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/confi
 docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/config/sync-conditions.js -s stu3
 ```
 
+### Using Docker Images
+The way this project works is by composing multiple Docker images using docker-compose. This means that if you fill comfortable with Docker you can just use those images instead. For example starting a local fhir server can be done by running a single command like:
+```sh
+docker run -it -p 8080:8080 smartonfhir/hapi:r3-sample
+```
+All the images are available on the Docker hub at https://hub.docker.com/u/smartonfhir/.
