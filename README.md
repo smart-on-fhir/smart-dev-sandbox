@@ -1,8 +1,9 @@
+<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301806-ea2b711c-6e36-11e8-8a40-4ee47286741d.png"/>
+
 # smart-dev-sandbox
 Docker based sandbox for smart apps
-<img width="869" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/40930994-573a3054-67f7-11e8-9f75-b6190164d991.png">
 
-# System requirements
+## System requirements
 Docker with at least 2.5 GB of dedicated memory and 2 or more CPU-s. Note that if you don't have enough resources you can disable one of the fhir servers.
 If you do have enough resources however, we recommend that you use 3 CPU cores which will give you significant performance improvement.
 The project is compatible with Docker 17.04.0+ but have only been tested with Docker 18.
@@ -38,16 +39,16 @@ If you don't see such output, then you will have to stop the services manually. 
 ```
 docker stop {CONTAINER ID}
 ```
-(replace `CONTAINER ID` with the current container id).
+(replace `{CONTAINER ID}` with the current container id).
 
 
 ### FHIR Data ###
-The two HAPI FHIR servers will make their data available in the `stu2-data` and `stu3-data` folders.
+The two HAPI FHIR servers will make their data available in the `stu2-data/target` and `stu3-data/target` folders.
 These folders will contain the Derby Database files which you must not modify. You can however copy the entire folder as a form of backup if you need to. Replacing that folder with an older version (while the server is stopped) can be used as a way to restore the data to its previous state.
 
 
 #### Add/Edit/Delete Resources
-Use the FHIR API to make changes. Changes will be written to the database which lives on your host OS, therefore, they will persist if you restart the sandbox.
+You should use the FHIR API to modify the data. Changes will be written to the database which lives on your host OS, therefore, they will persist if you restart the sandbox.
 
 
 #### Reset Data Changes
