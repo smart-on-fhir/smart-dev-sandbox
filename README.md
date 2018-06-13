@@ -76,7 +76,7 @@ docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/confi
 The sandbox behavior is determined on startup using environment variables. These variables are defined in the configuration file `.env`. Once you make changes, you will need to restart the sandbox using the instructions above for them to take effect.
 
 There are three types of variables that you can change:
-1. **Ports** - by default, the sandbox attempt occupy ports 4000 to 4005. If that leads to conflict on your machine you can change the following variables:
+1. **Ports** - by default, the sandbox attempt to occupy ports 4000 to 4005. If that leads to conflict on your machine you can change the following variables:
     ```
     CONTROL_PANEL_PORT
     LAUNCHER_PORT
@@ -94,7 +94,7 @@ There are three types of variables that you can change:
 	```
 
 ## Standalone Docker Images
-This project composes multiple Docker images into one container, but it is also possible to use a subset of the images. The images are available on the Docker hub at https://hub.docker.com/u/smartonfhir/. For example, to start just a local HAPI FHIR server run:
+This project composes multiple Docker images together, but it is also possible to use a subset of the images. The images are available on the Docker hub at https://hub.docker.com/u/smartonfhir/. For example, to start just a local HAPI FHIR server run:
 ```sh
 docker run -it -p 8080:8080 smartonfhir/hapi:r3-sample
 ```
