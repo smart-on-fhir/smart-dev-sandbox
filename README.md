@@ -23,7 +23,7 @@ The sandbox is compatible with Docker 17.04.0+ but has only been tested with Doc
 	```sh
 	cd smart-dev-sandbox
 	``` 
-5. Start the Docker container
+5. Start the Docker containers
 	```sh
 	docker-compose up
 	```
