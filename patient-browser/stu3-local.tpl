@@ -4,7 +4,7 @@
         url: 'http://localhost:$LAUNCHER_PORT/v/r3/fhir',
         tags: [
             {
-                key: 'smart-8-2017',
+                key: 'smart-7-2017',
                 label: 'SMART sample patients',
             },
             {
