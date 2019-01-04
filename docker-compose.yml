@@ -5,17 +5,17 @@ services:
     image: smartonfhir/smart-launcher
     environment:
       NODE_ENV               : "production"
-      LAUNCHER_BASE_URL      : "http://fhir.smart.mcg.com:${LAUNCHER_PORT}"
-      BASE_URL               : "http://fhir.smart.mcg.com:${LAUNCHER_PORT}"
-      FHIR_SERVER_R2         : "http://fhir.smart.mcg.com:${HAPI_PORT_STU2}/baseDstu2"
-      FHIR_SERVER_R3         : "http://fhir.smart.mcg.com:${HAPI_PORT_STU3}/baseDstu3"
+      LAUNCHER_BASE_URL      : "https://fhir.smart.mcg.com:${LAUNCHER_PORT}"
+      BASE_URL               : "https://fhir.smart.mcg.com:${LAUNCHER_PORT}"
+      FHIR_SERVER_R2         : "https://fhir.smart.mcg.com:${HAPI_PORT_STU2}/baseDstu2"
+      FHIR_SERVER_R3         : "https://fhir.smart.mcg.com:${HAPI_PORT_STU3}/baseDstu3"
       FHIR_SERVER_R2_INTERNAL: "http://stu2:${HAPI_PORT_STU2}/baseDstu2"
       FHIR_SERVER_R3_INTERNAL: "http://stu3:${HAPI_PORT_STU3}/baseDstu3"
       DISABLE_SANDBOXES      : "1"
       CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
       PICKER_CONFIG_R2       : "dstu2-local"
       PICKER_CONFIG_R3       : "stu3-local"
-      PICKER_ORIGIN          : "http://fhir.smart.mcg.com:${PATIENT_BROWSER_PORT}"
+      PICKER_ORIGIN          : "https://fhir.smart.mcg.com:${PATIENT_BROWSER_PORT}"
       STU2_ENABLED           : "${STU2_ENABLED}"
       STU3_ENABLED           : "${STU3_ENABLED}"
     ports:
