@@ -1,7 +1,7 @@
 {
     server: {
         type: 'STU-3',
-        url: 'https://fhir.smart.mcg.com:$LAUNCHER_PORT/v/r3/fhir',
+        url: 'http://fhir.smart.mcg.com:$LAUNCHER_PORT/v/r3/fhir',
         tags: [
             {
                 key: 'smart-7-2017',
@@ -3032,7 +3032,7 @@
     renderSelectedOnly: false,
     fhirViewer: {
         enabled: true,
-        url: 'https://fhir.smart.mcg.com:$FHIR_VIEWER_PORT/index.html',
+        url: 'http://fhir.smart.mcg.com:$FHIR_VIEWER_PORT/index.html',
         param: 'url',
     },
     outputMode: 'id-list',
