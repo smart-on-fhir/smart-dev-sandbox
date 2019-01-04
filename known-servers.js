@@ -15,7 +15,5 @@ window.KNOWN_SERVERS = [
     /https?\:\/\/fhir.smart.mcg.com\:\d+\/v\/r(2|3)\/fhir\//,
     /https?\:\/\/127\.0\.0\.1\:\d+\/baseDstu(2|3)\//,
     /https?\:\/\/fhir.smart.mcg.com\:\d+\/baseDstu(2|3)\//,
-    /https?\:\/\/r(3|2)(-staging)?\.smarthealthit\.org/,
-    /https?\:\/\/52.246.254.233\:\d+\/v\/r(2|3)\/fhir\//,
-    /https?\:\/\/52.246.254.233\:\d+\/baseDstu(2|3)\//,
+    /https?\:\/\/r(3|2)(-staging)?\.smarthealthit\.org/
 ];
