@@ -5,7 +5,7 @@ sudo docker run -p 80:80 -p 443:443 -p 4000-4005:4000-4005 --name nginx \
 -v /home/azure/certs:/etc/letsencrypt -d nginx:alpine
 
 sudo docker run -p 4180:4180 -p 8080:8080 --name oauth2_proxy -d a5huynh/oauth2_proxy \
---upstream=http://fhir.smart.mcg.com:4002 \
+--upstream=https://fhir.smart.mcg.com:4002 \
 --http-address="0.0.0.0:4180" \
 --cookie-secret=12345678 \
 --client-id=daa19535-fa14-4b4c-9cd4-d5511fcb9273 \
