@@ -42,7 +42,7 @@ def check_login(username, password):
 
 def authenticated():
     auth_header = request.headers.get('Authorization')
-    print(header)
+    print(auth_header)
     return True
 
 run(host='0.0.0.0', port=8080)
