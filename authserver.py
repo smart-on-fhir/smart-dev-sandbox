@@ -17,15 +17,13 @@ def login():
 @post('/oauth2') # or @route('/login', method='POST')
 def auth():
     if authenticated():
-        auth_header = request.headers.get('Authorization')
-        print(header)
         return "OAUTH2 OK"
     else:
         return "<p>Not Authenticated</p>"
 
 @post('/oauth2/auth') # or @route('/login', method='POST')
 def auth():
-    if authenticated():
+    if authenticated():        
         return "AUTH OK"
     else:
         return "<p>Not Authenticated</p>"
@@ -43,6 +41,8 @@ def check_login(username, password):
     return True
 
 def authenticated():
+    auth_header = request.headers.get('Authorization')
+    print(header)
     return True
 
 run(host='0.0.0.0', port=8080)
