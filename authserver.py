@@ -23,8 +23,34 @@ def do_login():
     else:
         return "<p>Login failed.</p>"
 
+
+@post('/oauth2') # or @route('/login', method='POST')
+def auth():
+    if authenticated():
+        return "OAUTH2 OK"
+    else:
+        return "<p>Not Authenticated</p>"
+
+@post('/oauth2/auth') # or @route('/login', method='POST')
+def auth():
+    if authenticated():
+        return "AUTH OK"
+    else:
+        return "<p>Not Authenticated</p>"
+
+@post('/oauth2/callback') 
+def do_login():
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    if check_login(username, password):
+        return "<p>Your login information was correct.</p>"
+    else:
+        return "<p>Login failed.</p>"
+
 def check_login(username, password):
     return True
 
+def authenticated():
+    return True
 
 run(host='0.0.0.0', port=8080)
