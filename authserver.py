@@ -1,4 +1,4 @@
-from bottle import route, run, template, get, post, request
+from bottle import route, run, template, get, post, request, redirect
 
 @route('/hello/<name>')
 def index(name):
