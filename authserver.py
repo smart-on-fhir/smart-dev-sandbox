@@ -17,9 +17,9 @@ def authenticated():
     auth_header = request.headers.get('Authorization')
     print(auth_header)
 
-    app_id = 'daa19535-fa14-4b4c-9cd4-d5511fcb9273'
-    access_token = auth_header.replace('Bearer ','')
-    token_header = jwt.get_unverified_header(access_token)
+    #app_id = 'daa19535-fa14-4b4c-9cd4-d5511fcb9273'
+    #access_token = auth_header.replace('Bearer ','')
+    #token_header = jwt.get_unverified_header(access_token)
 
     #res = req.get('https://login.microsoftonline.com/a84894e7-87c5-40e3-9783-320d0334b3cc/.well-known/openid-configuration')
     #jwk_uri = res.json()['jwks_uri']

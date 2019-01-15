@@ -1,0 +1,26 @@
+{
+  "name": "smart-dev-sandbox",
+  "version": "1.0.0",
+  "description": "The SMART Dev Sandbox is an open source, Docker based version of the SMART Sandbox that can be installed locally on your machine to facilitate offline development and the use of custom data sets. **Please note that it is not designed for clinical use and should not be used to store or access patient medical data.**",
+  "main": "known-servers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MCGHealth/smart-dev-sandbox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MCGHealth/smart-dev-sandbox/issues"
+  },
+  "homepage": "https://github.com/MCGHealth/smart-dev-sandbox#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.4",
+    "morgan": "^1.9.1"
+  }
+}
