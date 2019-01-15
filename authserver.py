@@ -14,19 +14,11 @@ def login():
         </form>
     '''
 
-@post('/login') # or @route('/login', method='POST')
-def do_login():
-    username = request.forms.get('username')
-    password = request.forms.get('password')
-    if check_login(username, password):
-        return "<p>Your login information was correct.</p>"
-    else:
-        return "<p>Login failed.</p>"
-
-
 @post('/oauth2') # or @route('/login', method='POST')
 def auth():
     if authenticated():
+        auth_header = request.headers.get('Authorization')
+        print(header)
         return "OAUTH2 OK"
     else:
         return "<p>Not Authenticated</p>"
