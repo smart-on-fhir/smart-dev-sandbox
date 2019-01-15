@@ -4,6 +4,8 @@ sudo docker run -p 80:80 -p 443:443 -p 4000-4005:4000-4005 -p 4180:4180 --name n
 -v /home/azure/html:/usr/share/nginx/html \
 -v /home/azure/certs:/etc/letsencrypt -d nginx:alpine
 
+python authserver.py
+
 sudo docker run -p 4180:4180 -p 8080:8080 --name oauth2_proxy -d a5huynh/oauth2_proxy \
 --upstream=https://fhir.smart.mcg.com:4002 \
 --http-address="0.0.0.0:4180" \

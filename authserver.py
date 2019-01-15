@@ -1,25 +1,10 @@
-from bottle import route, run, template, get, post, request, redirect
+from bottle import route, run, template, get, post, request, redirect # pip install bottle
+import jwt  # pip install pyjwt cryptography requests
+import requests as req
 
 @route('/hello/<name>')
 def index(name):
     return template('<b>Hello {{name}}</b>!', name=name)
-
-@get('/login') # or @route('/login')
-def login():
-    return '''
-        <form action="/login" method="post">
-            Username: <input name="username" type="text" />
-            Password: <input name="password" type="password" />
-            <input value="Login" type="submit" />
-        </form>
-    '''
-
-@post('/oauth2') # or @route('/login', method='POST')
-def auth():
-    if authenticated():
-        return "OAUTH2 OK"
-    else:
-        return "<p>Not Authenticated</p>"
 
 @post('/oauth2/auth') # or @route('/login', method='POST')
 def auth():
@@ -28,21 +13,15 @@ def auth():
     else:
         return "<p>Not Authenticated</p>"
 
-@post('/oauth2/callback') 
-def do_login():
-    username = request.forms.get('username')
-    password = request.forms.get('password')
-    if check_login(username, password):
-        return "<p>Your login information was correct.</p>"
-    else:
-        return "<p>Login failed.</p>"
-
-def check_login(username, password):
-    return True
-
 def authenticated():
     auth_header = request.headers.get('Authorization')
     print(auth_header)
+
+    app_id = 'daa19535-fa14-4b4c-9cd4-d5511fcb9273'
+    access_token = auth_header.replace('Bearer ','')
+    token_header = jwt.get_unverified_header(access_token)
+
+    res = req.get()
     return True
 
 run(host='0.0.0.0', port=8080)
