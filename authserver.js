@@ -11,11 +11,6 @@ app.set('superSecret', 'NUP5MEqlZQBOBkJu/+twgp4tSJmSajqsIzA3MCMDzog=');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// basic route
-app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + port + '/api');
-});
-
 app.post('/oauth2/auth', function(req, res, next){
     let authorization = req.headers["authorization"];
     console.log('handling POST oath2/auth');
@@ -42,7 +37,6 @@ app.post('/oauth2/auth', function(req, res, next){
     }
 
     function validateToken(key) {
-        console.log(decoded.header);
         const pem = jwkToPem(key);
 
         jwt.verify(token, pem, function(err, decoded) {
