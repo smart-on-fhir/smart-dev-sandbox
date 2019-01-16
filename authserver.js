@@ -17,17 +17,18 @@ app.get('/', function(req, res) {
 });
 
 app.post('/oauth2/auth', function(req, res, next){
-    let token = req.headers["authorization"];
+    let authorization = req.headers["authorization"];
     console.log('handling POST oath2/auth');
-    if (!token)
+    if (!authorization)
         return res.status(403).send("Missing Token");
 
+    let token = authorization.replace(/Bearer /i,'');
     let decoded = jwt.decode(token, {complete: true});
     
     if(!decoded || !decoded.header)
         return res.status(403).send("Invalid Token");
 
-    request('https://login.windows.net/common/discovery/keys',extractKeys)
+    request('https://login.windows.net/common/discovery/keys',extractKeys);
 
     function extractKeys(error, response, body) {
         if(error)
@@ -46,7 +47,7 @@ app.post('/oauth2/auth', function(req, res, next){
 
         jwt.verify(token, pem, function(err, decoded) {
             if(err)
-                res.status(403).send(err);
+                return res.status(403).send(err);
             
             return res.status(200).send('OK');
         })
