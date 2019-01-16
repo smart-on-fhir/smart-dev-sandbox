@@ -17,14 +17,23 @@ app.get('/', function(req, res) {
 });
 
 app.post('/oauth2/auth', function(req, res, next){
-    const token = req.headers["authorization"].replace(/bearer /i,'');
-    const decoded = jwt.decode(token, {complete: true});
+    let token = req.headers["authorization"];
+
+    if (!token)
+        return res.status(403).send("Missing Token");
+
+    let decoded = jwt.decode(token, {complete: true});
     
+    if(!decoded || !decoded.header)
+        return res.status(403).send("Invalid Token");
+
+    request('https://login.windows.net/common/discovery/keys',extractKeys)
+
     function extractKeys(error, response, body) {
         if(error)
             throw new Error(error);
     
-        const jwk_keys = JSON.parse(response.body);
+        const jwk_keys = JSON.parse(response.body);        
         let keys = jwk_keys.keys.filter((x) => x['kid'] === decoded.header['kid']);
         
         if (keys.length)
@@ -39,11 +48,9 @@ app.post('/oauth2/auth', function(req, res, next){
             if(err)
                 res.status(403).send(err);
             
-            return(res.status(200).send('OK'));
+            return res.status(200).send('OK');
         })
-    }
-    request('https://login.windows.net/common/discovery/keys',extractKeys)
-
+    }  
 });
 
 
