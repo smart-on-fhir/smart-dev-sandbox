@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
 
 app.post('/oauth2/auth', function(req, res, next){
     let token = req.headers["authorization"];
-
+    console.log('handling POST oath2/auth');
     if (!token)
         return res.status(403).send("Missing Token");
 
