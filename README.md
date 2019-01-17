@@ -75,7 +75,7 @@ docker exec smart-dev-sandbox_patient-browser_1 node /usr/share/nginx/html/confi
 ## Configuration
 The sandbox behavior is determined on startup using environment variables. These variables are defined in the configuration file `.env`. Once you make changes, you will need to restart the sandbox using the instructions above for them to take effect.
 
-There are three types of variables that you can change:
+There are different types of variables that you can change:
 1. **Ports** - by default, the sandbox attempt to occupy ports 4000 to 4005. If that leads to conflict on your machine you can change the following variables:
     ```
     CONTROL_PANEL_PORT
@@ -91,6 +91,10 @@ There are three types of variables that you can change:
 	```sh
 	STU2_ENABLED=true
 	STU3_ENABLED=false
+	```
+4. **Host** - by default everything runs on `localhost` but you can change that to the IP of the machine that hosts the project. This will affect how the links are generated, making sure that all the component can talk to each other. For example:
+	```sh
+	HOST=1.2.3.4 # No quotes!
 	```
 
 ## Standalone Docker Images
