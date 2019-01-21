@@ -1,7 +1,7 @@
 {
     server: {
         type: 'STU-3',
-        url: 'http://localhost:$LAUNCHER_PORT/v/r3/fhir',
+        url: 'http://$HOST:$LAUNCHER_PORT/v/r3/fhir',
         tags: [
             {
                 key: 'smart-7-2017',
@@ -3032,7 +3032,7 @@
     renderSelectedOnly: false,
     fhirViewer: {
         enabled: true,
-        url: 'http://localhost:$FHIR_VIEWER_PORT/index.html',
+        url: 'http://$HOST:$FHIR_VIEWER_PORT/index.html',
         param: 'url',
     },
     outputMode: 'id-list',

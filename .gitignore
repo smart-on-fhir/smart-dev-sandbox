@@ -1,6 +1,7 @@
 node_modules
 patient-browser/dstu2-local.json5
 patient-browser/stu3-local.json5
+fhir-viewer/known-servers.js
 www/index.html
 derby.log
 !*/.gitkeep
