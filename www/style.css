@@ -7,47 +7,55 @@
 }
 
 html, body {
-    height     : 100%;
-    width      : 100%;
-    margin     : 0;
-    padding    : 0;
-    overflow   : hidden;
-    position   : relative;
-    font-family: 'Roboto', sans-serif;
-    flex-flow  : column;
-    /* flex       : 1 1 auto;
-    display    : flex; */
-    display    : block;
+    height       : 100%;
+    width        : 100%;
+    margin       : 0;
+    padding      : 0;
+    overflow     : hidden;
+    position     : relative;
+    font-family  : 'Roboto', sans-serif;
+    -ms-flex-flow: column;
+    flex-flow    : column;
+    /* flex         : 1 1 auto;
+    display      : flex; */
+    display      : block;
 }
 
 .wrapper {
-    height    : 100%;
-    display   : flex;
-    flex-flow : column;
-    flex      : 1;
-    flex-wrap : wrap;
+    height       : 100%;
+    display      : -ms-flexbox;
+    display      : flex;
+    -ms-flex-flow: column;
+    flex-flow    : column;
+    /* -ms-flex     : 1 1 0px;
+    flex         : 1 1 0px; */
 }
 
 /* launch ------------------------------------------------------------------- */
 .launch {
-    border         : 2px solid rgb(230, 230, 230);
-    background     : linear-gradient(rgba(255, 255, 255, 0), rgb(245, 245, 245));
-    margin         : 20px;
-    padding        : 3px;
-    overflow       : auto;
-    text-align     : center;
-    border-radius  : 5px;
-    text-decoration: none;
-    white-space    : nowrap;
-    display        : flex;
-    color          : #005264;
-    flex-flow      : row;
-    flex           : 0 1 150px;
-    justify-content: center;
-    height         : 150px;
-    max-width      : 700px;
-    align-self     : center;
-    width          : 90%;
+    border             : 2px solid rgb(230, 230, 230);
+    background         : linear-gradient(rgba(255, 255, 255, 0), rgb(245, 245, 245));
+    margin             : 20px;
+    padding            : 3px;
+    overflow           : auto;
+    text-align         : center;
+    border-radius      : 5px;
+    text-decoration    : none;
+    white-space        : nowrap;
+    display            : -ms-flexbox;
+    display            : flex;
+    color              : #005264;
+    -ms-flex-flow      : row;
+    flex-flow          : row;
+    -ms-flex           : none;
+    flex               : none;
+    -ms-flex-pack      : center;
+    justify-content    : center;
+    height             : 150px;
+    max-width          : 700px;
+    -ms-flex-item-align: center;
+    align-self         : center;
+    width              : 90%;
 }
 
 .launch:after {
@@ -64,25 +72,32 @@ html, body {
 }
 
 .launch svg {
+    display       : -ms-flexbox;
     display       : flex;
     vertical-align: middle;
+    -ms-flex      : 0 1 4vw;
     flex          : 0 1 4vw;
     min-height    : 128px;
     min-width     : 128px;
 }
 
 .launch .right {
-    display   : flex;
-    align-self: center;
-    flex-flow : column;
-    flex      : 4 1 0px;
-    text-align: left;
-    padding   : 0 2em 0 0;
+    display            : -ms-flexbox;
+    display            : flex;
+    -ms-flex-item-align: center;
+    align-self         : center;
+    -ms-flex-flow      : column;
+    flex-flow          : column;
+    -ms-flex           : 4 1 0px;
+    flex               : 4 1 0px;
+    text-align         : left;
+    padding            : 0 2em 0 0;
 }
 
 .launch p {
     white-space: normal;
     color      :rgba(0, 0, 0, 0.5);
+    display    : -ms-flexbox;
     display    : flex;
     font-size  : 14px;
     font-weight: 300;
@@ -90,6 +105,7 @@ html, body {
 }
 
 .launch h1 {
+    display    : -ms-flexbox;
     display    : flex;
     line-height: 1.2;
     font-size  : 4vw;
@@ -106,25 +122,34 @@ html, body {
 
 /* bottom-row ----------------------------------------------------------------*/
 .bottom-row {
+    display        : -ms-flexbox;
     display        : flex;
+    -ms-flex       : 1 1 0px;
     flex           : 1 1 0px;
     background     : #EEE linear-gradient(#EEE 150px, #FFF);
+    -ms-flex-wrap  : wrap;
     flex-wrap      : wrap;
+    -ms-flex-pack : center;
     justify-content: center;
-    /* align-items    : stretch; */
+    -ms-flex-align : start;
+    align-items    : flex-start;
     overflow       : auto;
     -webkit-overflow-scrolling: touch;
 }
 
 .stu2, .stu3 {
+    display        : -ms-flexbox;
     display        : flex;
+    -ms-flex       : 0 1 200px;
     flex           : 0 1 200px;
+    -ms-flex-flow  : column;
     flex-flow      : column;
     border         : 2px solid rgb(235, 235, 235);
     border-radius  : 5px;
     margin         : 20px;
     min-width      : 330px;
     padding-bottom : 10px;
+    -ms-flex-pack  : center;
     justify-content: center;
     min-height     : 367px;
     text-shadow    : 0 1px 0 #FFF;
@@ -132,7 +157,8 @@ html, body {
 }
 
 .stu2 svg, .stu3 svg {
-    display   : flex;
+    display   : block;
+    -ms-flex  : 0 1 256px;
     flex      : 0 1 256px;
     margin    : 0 auto 20px;
     min-height: 128px;
@@ -212,13 +238,19 @@ h3 {
 
 /* footer ------------------------------------------------------------------- */
 .footer {
-    background     : #005264;
-    color          : #CCC;
-    text-align     : center;
-    display        : flex;
-    flex           : 0 0 50px;
-    align-items    : center;
-    align-content  : center;
-    justify-content: center;
-    font-size      : small;
+    background        : #005264;
+    color             : #CCC;
+    text-align        : center;
+    display           : -ms-flexbox;
+    display           : flex;
+    height            : 50px;
+    -ms-flex          : none;
+    flex              : none;
+    -ms-flex-align    : center;
+    align-items       : center;
+    -ms-flex-line-pack: center;
+    align-content     : center;
+    -ms-flex-pack     : center;
+    justify-content   : center;
+    font-size         : small;
 }
