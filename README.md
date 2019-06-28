@@ -1,16 +1,16 @@
 # SMART Dev Sandbox
 The SMART Dev Sandbox is an open source, Docker based version of the SMART Sandbox that can be installed locally on your machine to facilitate offline development and the use of custom data sets. **Please note that it is not designed for clinical use and should not be used to store or access patient medical data.**
 
-This tool supplements the free online sandbox at https://launch.smarthealthit.org and packages together the SMART launcher front end, a custom authentication server targeted at app development and testing, DSTU2 and STU3 FHIR servers based on the excellent http://hapifhir.io project, sample patient data, an integrated web based interface to browse these sample patients, and a web based FHIR data explorer. Additionally, these components can be set up individually from the SMART docker images repository at https://hub.docker.com/u/smartonfhir/ (for example, to run a local FHIR server you can type "docker run -it -p 8080:8080 smartonfhir/hapi:r3-sample"). 
+This tool supplements the free online sandbox at https://launch.smarthealthit.org and packages together the SMART launcher front end, a custom authentication server targeted at app development and testing, DSTU2, STU3 and R4 FHIR servers based on the excellent http://hapifhir.io project, sample patient data, an integrated web based interface to browse these sample patients, and a web based FHIR data explorer. Additionally, these components can be set up individually from the SMART docker images repository at https://hub.docker.com/u/smartonfhir/ (for example, to run a local FHIR server you can type "docker run -it -p 8080:8080 smartonfhir/hapi:r3-sample"). 
 
 Check it out and please open issues on Github if you have suggestions or run into any problems!
 
 <img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301806-ea2b711c-6e36-11e8-8a40-4ee47286741d.png"/>
 
 ## System requirements
-Docker with a minimum of 2.5 GB of dedicated memory and 2 or more CPU cores (3 cores recommended). By default, the project runs both FHIR DSTU2 and FHIR STU3 server instances. If your system doesn't have sufficient resources, you can follow the configuration instructions below to disable one of these servers.
+Docker with a minimum of 2.5 GB of dedicated memory and 2 or more CPU cores (3 cores recommended). By default, the project runs one server for each FHIR version. If your system doesn't have sufficient resources, you can follow the configuration instructions below to disable some of these servers.
 
-The sandbox is compatible with Docker 17.04.0+ but has only been tested with Docker 18.
+The sandbox is compatible with Docker 17.04.0+ but has only been tested with Docker 18+.
 
 ## Start the Dev Sandbox
 1. If you don't already have Docker on your system, download and install it from https://store.docker.com/search?type=edition&offering=community
@@ -49,7 +49,7 @@ If you don't see this output, then you will have to stop the services manually. 
 
 ## FHIR Data
 
-The two HAPI FHIR servers are pre-populated with a set of sample patients and store data in the `stu2-data/target` and `stu3-data/target` folders as filesystem based Derby databases. See the configuration section below for instructions on starting the sandbox without any existing data.
+The two HAPI FHIR servers are pre-populated with a set of sample patients and store data in the `{fhir-version}-data/target` folders as filesystem based Derby databases. See the configuration section below for instructions on starting the sandbox without any pre-existing data.
 
 If you use the FHIR API to modify this data, the changes will persist even after you restart the sandbox. To restore the data to it's initial state, stop the sandbox, reset the repository and start the sandbox again:
 
