@@ -5,7 +5,7 @@ This tool supplements the free online sandbox at https://launch.smarthealthit.or
 
 Check it out and please open issues on Github if you have suggestions or run into any problems!
 
-<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301806-ea2b711c-6e36-11e8-8a40-4ee47286741d.png"/>
+<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/60365440-b74ec080-99b6-11e9-81c7-ec36b34f4e36.png"/>
 
 ## System requirements
 Docker with a minimum of 2.5 GB of dedicated memory and 2 or more CPU cores (3 cores recommended). By default, the project runs one server for each FHIR version. If your system doesn't have sufficient resources, you can follow the configuration instructions below to disable some of these servers.
