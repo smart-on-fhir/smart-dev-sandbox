@@ -116,7 +116,7 @@ html, body {
     -webkit-overflow-scrolling: touch;
 }
 
-.stu2, .stu3 {
+.stu2, .stu3, .r4 {
     display        : flex;
     flex           : 0 1 200px;
     flex-flow      : column;
@@ -131,7 +131,7 @@ html, body {
     box-shadow     : 0 0 0 4px #FFF inset;
 }
 
-.stu2 svg, .stu3 svg {
+.stu2 svg, .stu3 svg, .r4 svg {
     display   : flex;
     flex      : 0 1 256px;
     margin    : 0 auto 20px;
