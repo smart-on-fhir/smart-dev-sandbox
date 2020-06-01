@@ -21,12 +21,19 @@ const CFG = {
             "/usr/share/nginx/html/config/stu3-local.tpl",
             "/usr/share/nginx/html/config/stu3-local.json5"
         ]
+    },
+    "r4": {
+        server: `http://r4:${process.env.HAPI_PORT_R4}/baseR4`,
+        pickerConfigFile: [
+            "/usr/share/nginx/html/config/r4-local.tpl",
+            "/usr/share/nginx/html/config/r4-local.json5"
+        ]
     }
 };
  
 app
     .version('0.1.0')
-    .option('-s, --stu <string>', 'Fhir version "stu2" 0r "stu3"')
+    .option('-s, --stu <string>', 'Fhir version "stu2", "stu3", or "r4"')
     .option('-p, --proxy <string>' , 'Proxy (if needed)')
     .parse(process.argv);
 
@@ -101,7 +108,7 @@ function getAllPages(options, cb, result = []) {
     });
 }
 
-if (app.stu != "stu2" && app.stu != "stu3") {
+if (app.stu != "stu2" && app.stu != "stu3" && app.stu != "r4") {
     return app.help();
 }
 
