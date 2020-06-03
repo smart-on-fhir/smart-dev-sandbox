@@ -7,6 +7,14 @@
             {
                 key: "synthea-5-2019",
                 label: "Synthea sample patients 5/2019"
+            },
+            {
+                key: "sample (synthea)",
+                label: "sample (synthea)"
+            },
+            {
+                key: "sample-patients",
+                label: "sample-patients"
             }
         ],
         conditions: {

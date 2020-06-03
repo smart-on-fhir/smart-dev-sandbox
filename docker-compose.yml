@@ -13,7 +13,7 @@ services:
       BASE_URL               : "http://${HOST}:${LAUNCHER_PORT}"
       FHIR_SERVER_R2         : "http://${HOST}:${HAPI_PORT_STU2}/baseDstu2"
       FHIR_SERVER_R3         : "http://${HOST}:${HAPI_PORT_STU3}/baseDstu3"
-      FHIR_SERVER_R4         : "http://${HOST}:${HAPI_PORT_STU3}/baseR4"
+      FHIR_SERVER_R4         : "http://${HOST}:${HAPI_PORT_R4}/baseR4"
       FHIR_SERVER_R2_INTERNAL: "http://stu2:${HAPI_PORT_STU2}/baseDstu2"
       FHIR_SERVER_R3_INTERNAL: "http://stu3:${HAPI_PORT_STU3}/baseDstu3"
       FHIR_SERVER_R4_INTERNAL: "http://r4:${HAPI_PORT_R4}/baseR4"
@@ -37,13 +37,16 @@ services:
 
   
   r4: # HAPI R4 ----------------------------------------------------------------
-    # this image is not added to docker hub at this point
+    # a) once the image is published to docker hub
     # image: smartonfhir/hapi:r4-empty
-    build:
-      context: ../hapi
+    # b) or build from Dockerfile in local smart-on-fhir/hapi repo
+    # build:
+    #   context: ../hapi
+    # c) or if already built, use local image
+    image: hapi_r4:empty
     environment:
       PORT        : $HAPI_PORT_R4
-      STU3_ENABLED: $R4_ENABLED
+      R4_ENABLED  : $R4_ENABLED
     ports:
       - "${HAPI_PORT_R4}:${HAPI_PORT_R4}"
     volumes:

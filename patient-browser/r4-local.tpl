@@ -5,8 +5,8 @@
         // 'http://$HOST:$HAPI_PORT_R4/baseR4/',
         tags: [
             {
-                key: "synthea-5-2019",
-                label: "Synthea sample patients 5/2019"
+                key: "sample-patients",
+                label: "Synthea sample patients 5/2020"
             }
         ],
         conditions: {
