@@ -157,18 +157,22 @@ services:
       FHIR_SERVER_R2         : "http://${R2_IP}:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R3         : "http://${R3_IP}:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R4         : "http://${R4_IP}:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4         : "http://${R5_IP}:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R2_INTERNAL: "http://r2:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R3_INTERNAL: "http://r3:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R4_INTERNAL: "http://r4:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R5_INTERNAL: "http://r5:8080/hapi-fhir-jpaserver/fhir"
       DISABLE_SANDBOXES      : "1"
       CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
       PICKER_CONFIG_R2       : "r2-local"
       PICKER_CONFIG_R3       : "r3-local"
       PICKER_CONFIG_R4       : "r4-local"
+      PICKER_CONFIG_R5       : "r5-local"
       PICKER_ORIGIN          : "http://${PATIENT_BROWSER_IP}"
       STU2_ENABLED           : "${R2_ENABLED}"
       STU3_ENABLED           : "${R3_ENABLED}"
       STU4_ENABLED           : "${R4_ENABLED}"
+      STU5_ENABLED           : "${R5_ENABLED}"
     networks:
       sandbox:
         ipv4_address: $LAUNCHER_IP
