@@ -1,91 +1,176 @@
-version: '3.2'
+version: '2.2'
+
+# volumes:
+#   r2-database:
+#   r3-database:
+#   r4-database:
+#   r5-database:
+
+networks:
+  sandbox:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.38.0.0/16
+
 services:
 
-  smart-launcher: # SMART Launcher ---------------------------------------------
-    image: smartonfhir/smart-launcher
-    environment:
-      NODE_ENV               : "production"
-      LAUNCHER_BASE_URL      : "http://${HOST}:${LAUNCHER_PORT}"
-      BASE_URL               : "http://${HOST}:${LAUNCHER_PORT}"
-      FHIR_SERVER_R2         : "http://${HOST}:${HAPI_PORT_STU2}/baseDstu2"
-      FHIR_SERVER_R3         : "http://${HOST}:${HAPI_PORT_STU3}/baseDstu3"
-      FHIR_SERVER_R2_INTERNAL: "http://stu2:${HAPI_PORT_STU2}/baseDstu2"
-      FHIR_SERVER_R3_INTERNAL: "http://stu3:${HAPI_PORT_STU3}/baseDstu3"
-      DISABLE_SANDBOXES      : "1"
-      CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
-      PICKER_CONFIG_R2       : "dstu2-local"
-      PICKER_CONFIG_R3       : "stu3-local"
-      PICKER_ORIGIN          : "http://${HOST}:${PATIENT_BROWSER_PORT}"
-      STU2_ENABLED           : "${STU2_ENABLED}"
-      STU3_ENABLED           : "${STU3_ENABLED}"
-    ports:
-      - "${LAUNCHER_PORT}:80"
-    depends_on:
-      - patient-browser
-      - fhir-viewer
-      - stu3
-      - stu2
+  
 
-  stu3: # HAPI STU3 ------------------------------------------------------------
-    image: smartonfhir/hapi:r3-empty
+  r2: # ------------------------------------------------------------------------
+    container_name: hapi-r2
+    image: $R2_IMAGE
     environment:
-      PORT        : $HAPI_PORT_STU3
-      STU3_ENABLED: $STU3_ENABLED
-    ports:
-      - "${HAPI_PORT_STU3}:${HAPI_PORT_STU3}"
+      IP: $R2_IP
     volumes:
-      - "./${STU3_DATA_DIR}:/data:delegated"
-    command: bash -c "if ('$STU3_ENABLED' == 'true'); then bash /app/cmd; fi"
+      - "./data/r2:/usr/local/tomcat/target/database:delegated"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    networks:
+      sandbox:
+        ipv4_address: $R2_IP
+    cpu_count: $R2_CPU_CORES
+    mem_limit: $R2_MEMORY
+    scale: $R2_ENABLED
 
-  stu2: # HAPI STU2 ------------------------------------------------------------
-    image: smartonfhir/hapi:r2-empty
+  r3: # ------------------------------------------------------------------------
+    container_name: hapi-r3
+    image: $R3_IMAGE
     environment:
-      PORT        : $HAPI_PORT_STU2
-      STU2_ENABLED: $STU2_ENABLED
-    ports:
-      - "${HAPI_PORT_STU2}:${HAPI_PORT_STU2}"
+      IP: $R3_IP
     volumes:
-      - "./${STU2_DATA_DIR}:/data:delegated"
-    command: bash -c "if ('$STU2_ENABLED' == 'true'); then bash /app/cmd; fi"
+      - "./data/r3:/usr/local/tomcat/target/database:delegated"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    networks:
+      sandbox:
+        ipv4_address: $R3_IP
+    cpu_count: $R3_CPU_CORES
+    mem_limit: $R3_MEMORY
+    scale: $R3_ENABLED
 
-  patient-browser: # Patient Browser -------------------------------------------
-    image: smartonfhir/patient-browser:node
-    ports:
-      - "${PATIENT_BROWSER_PORT}:80"
-    volumes:
-      - ./patient-browser:/usr/share/nginx/html/config
+  r4: # ------------------------------------------------------------------------
+    container_name: hapi-r4
+    image: $R4_IMAGE
     environment:
-      LAUNCHER_PORT   : "${LAUNCHER_PORT}"
-      FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
-      HAPI_PORT_STU3  : "${HAPI_PORT_STU3}"
-      HAPI_PORT_STU2  : "${HAPI_PORT_STU2}"
-      HOST            : "${HOST}"
-    command: sh -c "envsubst < /usr/share/nginx/html/config/dstu2-local.tpl > /usr/share/nginx/html/config/dstu2-local.json5 && envsubst < /usr/share/nginx/html/config/stu3-local.tpl > /usr/share/nginx/html/config/stu3-local.json5 && nginx -g 'daemon off;'"
+      IP: $R4_IP
+    volumes:
+      - "./data/r4:/usr/local/tomcat/target/database:delegated"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    networks:
+      sandbox:
+        ipv4_address: $R4_IP
+    cpu_count: $R4_CPU_CORES
+    mem_limit: $R4_MEMORY
+    scale: $R4_ENABLED
 
-  fhir-viewer: # Fhir Viewer ---------------------------------------------------
+  r5: # ------------------------------------------------------------------------
+    container_name: hapi-r5
+    image: $R5_IMAGE
+    environment:
+      IP: $R5_IP
+    volumes:
+      - "./data/r5:/usr/local/tomcat/target/database:delegated"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    networks:
+      sandbox:
+        ipv4_address: $R5_IP
+    cpu_count: $R5_CPU_CORES
+    mem_limit: $R5_MEMORY
+    scale: $R5_ENABLED
+
+  fhir-viewer: # ---------------------------------------------------------------
+    container_name: fhir-viewer
     image: smartonfhir/fhir-viewer
-    ports:
-      - "${FHIR_VIEWER_PORT}:80"
     volumes:
       - ./fhir-viewer:/usr/share/nginx/html/config
     environment:
-      HOST: "${HOST}"
+      HOST: "${FHIR_VIEWER_IP}"
     command: sh -c "envsubst < /usr/share/nginx/html/config/known-servers.tpl > /usr/share/nginx/html/known-servers.js && nginx -g 'daemon off;'"
+    networks:
+      sandbox:
+        ipv4_address: $FHIR_VIEWER_IP
+    scale: $FHIR_VIEWER_ENABLED
+    
+  patient-browser: # -----------------------------------------------------------
+    container_name: patient-browser
+    # image: smartonfhir/patient-browser:node
+    build:
+      context: ../patient-browser
+      dockerfile: ./Dockerfile
+    # ports:
+    #   - "${PATIENT_BROWSER_PORT}:80"
+    volumes:
+      - ./patient-browser:/usr/share/nginx/html/config
+    environment:
+      # LAUNCHER_PORT   : "${LAUNCHER_PORT}"
+      FHIR_VIEWER_IP: "${FHIR_VIEWER_IP}"
+      R2_IP         : "${R2_IP}"
+      R3_IP         : "${R3_IP}"
+      R4_IP         : "${R4_IP}"
+      R5_IP         : "${R5_IP}"
+    command: ["sh", "-c", "
+      envsubst < /usr/share/nginx/html/config/r2.tpl > \/usr/share/nginx/html/config/r2-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r3.tpl > \/usr/share/nginx/html/config/r3-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r4.tpl > \/usr/share/nginx/html/config/r4-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r5.tpl > \/usr/share/nginx/html/config/r5-local.json5 &&
+      nginx -g 'daemon off;'"]
+    networks:
+      sandbox:
+        ipv4_address: $PATIENT_BROWSER_IP
+    scale: $PATIENT_BROWSER_ENABLED
 
-  index: # Index page ----------------------------------------------------------
+  index: # ---------------------------------------------------------------------
+    container_name: home-page
     image: nginx:alpine
-    ports:
-      - "${CONTROL_PANEL_PORT}:80"
     volumes:
       - ./www:/usr/share/nginx/html
     environment:
-      LAUNCHER_PORT       : "${LAUNCHER_PORT}"
-      HAPI_PORT_STU2      : "${HAPI_PORT_STU2}"
-      HAPI_PORT_STU3      : "${HAPI_PORT_STU3}"
-      PATIENT_BROWSER_PORT: "${PATIENT_BROWSER_PORT}"
-      FHIR_VIEWER_PORT    : "${FHIR_VIEWER_PORT}"
-      STU2_ENABLED        : "${STU2_ENABLED}"
-      STU3_ENABLED        : "${STU3_ENABLED}"
-      HOST                : "${HOST}"
-      ISSUES_URL          : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
+      R2_IP                  : "${R2_IP}"
+      R3_IP                  : "${R3_IP}"
+      R4_IP                  : "${R4_IP}"
+      R5_IP                  : "${R5_IP}"
+      PATIENT_BROWSER_IP     : "${PATIENT_BROWSER_IP}"
+      FHIR_VIEWER_IP         : "${FHIR_VIEWER_IP}"
+      LAUNCHER_IP            : "${LAUNCHER_IP}"
+      R2_ENABLED             : "${R2_ENABLED}"
+      R3_ENABLED             : "${R3_ENABLED}"
+      R4_ENABLED             : "${R4_ENABLED}"
+      R5_ENABLED             : "${R5_ENABLED}"
+      PATIENT_BROWSER_ENABLED: "${PATIENT_BROWSER_ENABLED}"
+      FHIR_VIEWER_ENABLED    : "${FHIR_VIEWER_ENABLED}"
+      LAUNCHER_ENABLED       : "${LAUNCHER_ENABLED}"
+      ISSUES_URL             : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
     command: sh -c "envsubst < /usr/share/nginx/html/template.html > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+    networks:
+      sandbox:
+        ipv4_address: $CONTROL_PANEL_IP
+    scale: $CONTROL_PANEL_ENABLED
+
+  smart-launcher: # SMART Launcher ---------------------------------------------
+    container_name: launcher
+    # image: smartonfhir/smart-launcher
+    build:
+      context: https://github.com/smart-on-fhir/smart-launcher.git
+    environment:
+      NODE_ENV               : "production"
+      LAUNCHER_BASE_URL      : "http://${LAUNCHER_IP}"
+      BASE_URL               : "http://${LAUNCHER_IP}"
+      FHIR_SERVER_R2         : "http://${R2_IP}:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R3         : "http://${R3_IP}:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4         : "http://${R4_IP}:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R2_INTERNAL: "http://r2:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R3_INTERNAL: "http://r3:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4_INTERNAL: "http://r4:8080/hapi-fhir-jpaserver/fhir"
+      DISABLE_SANDBOXES      : "1"
+      CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
+      PICKER_CONFIG_R2       : "r2-local"
+      PICKER_CONFIG_R3       : "r3-local"
+      PICKER_CONFIG_R4       : "r4-local"
+      PICKER_ORIGIN          : "http://${PATIENT_BROWSER_IP}"
+      STU2_ENABLED           : "${R2_ENABLED}"
+      STU3_ENABLED           : "${R3_ENABLED}"
+      STU4_ENABLED           : "${R4_ENABLED}"
+    networks:
+      sandbox:
+        ipv4_address: $LAUNCHER_IP
+    scale: $LAUNCHER_ENABLED
+
