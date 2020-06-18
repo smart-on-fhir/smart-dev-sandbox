@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// @ts-nocheck
 require("colors");
 require("dotenv").config({ path: "../.env" });
 const request = require("request");
