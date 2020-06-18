@@ -1,28 +1,25 @@
 #!/usr/bin/env node
 
 require("colors");
+require("dotenv").config({ path: "../.env" });
 const request = require("request");
 const FS      = require("fs");
 const app     = require("commander");
 const JSON5   = require("json5");
 
-// node ext/sync-conditions.js -s https://sb-fhir-stu3.smarthealthit.org/smartstu3/open
-const CFG = {
-    "stu2": {
-        server: `http://stu2:${process.env.HAPI_PORT_STU2}/baseDstu2`,
+const CFG = {};
+
+[2, 3, 4, 5].forEach(v => {
+    CFG[`r${v}`] = {
+        server: `http://${process.env[`R${v}_IP`]}:8080/hapi-fhir-jpaserver/fhir`,
         pickerConfigFile: [
-            "/usr/share/nginx/html/config/dstu2-local.tpl",
-            "/usr/share/nginx/html/config/dstu2-local.json5"
+            // `/usr/share/nginx/html/config/r${v}.tpl`,
+            `./r${v}.tpl`
         ]
-    },
-    "stu3": {
-        server: `http://stu3:${process.env.HAPI_PORT_STU3}/baseDstu3`,
-        pickerConfigFile: [
-            "/usr/share/nginx/html/config/stu3-local.tpl",
-            "/usr/share/nginx/html/config/stu3-local.json5"
-        ]
-    }
-};
+    };
+});
+
+// console.log(CFG)
  
 app
     .version('0.1.0')
@@ -81,7 +78,7 @@ function getAllPages(options, cb, result = []) {
             });
 
             process.stdout.write(
-                `Collecting conditions... ${Math.floor(result.length/bundle.total * 100)}%\r`
+                `Collecting conditions... ${bundle.total ? Math.floor(result.length/bundle.total * 100) : 0}%  \r`
             );
 
             let nextUrl = getBundleURL(bundle, "next");
@@ -101,11 +98,11 @@ function getAllPages(options, cb, result = []) {
     });
 }
 
-if (app.stu != "stu2" && app.stu != "stu3") {
+if (["2", "3", "4", "5"].indexOf(app.stu) === -1) {
     return app.help();
 }
 
-const server = CFG[app.stu].server;
+const server = CFG[`r${app.stu}`].server;
 
 getAllPages({
     method   : "GET",
@@ -130,7 +127,7 @@ getAllPages({
         };
     });
 
-    const filePaths = CFG[app.stu].pickerConfigFile;
+    const filePaths = CFG[`r${app.stu}`].pickerConfigFile;
 
     filePaths.forEach(filePath => {
         // Load the config file
