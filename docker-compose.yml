@@ -1,10 +1,10 @@
 version: '2.2'
 
-# volumes:
-#   r2-database:
-#   r3-database:
-#   r4-database:
-#   r5-database:
+volumes:
+  r2-database:
+  r3-database:
+  r4-database:
+  r5-database:
 
 networks:
   sandbox:
@@ -23,7 +23,7 @@ services:
     environment:
       IP: $R2_IP
     volumes:
-      - "./data/r2:/usr/local/tomcat/target/database:delegated"
+      - "r2-database:/usr/local/tomcat/target/database"
     command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
     networks:
       sandbox:
@@ -38,7 +38,7 @@ services:
     environment:
       IP: $R3_IP
     volumes:
-      - "./data/r3:/usr/local/tomcat/target/database:delegated"
+      - "r3-database:/usr/local/tomcat/target/database"
     command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
     networks:
       sandbox:
@@ -53,7 +53,7 @@ services:
     environment:
       IP: $R4_IP
     volumes:
-      - "./data/r4:/usr/local/tomcat/target/database:delegated"
+      - "r4-database:/usr/local/tomcat/target/database:delegated"
     command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
     networks:
       sandbox:
@@ -68,7 +68,7 @@ services:
     environment:
       IP: $R5_IP
     volumes:
-      - "./data/r5:/usr/local/tomcat/target/database:delegated"
+      - "r5-database:/usr/local/tomcat/target/database:delegated"
     command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
     networks:
       sandbox:
