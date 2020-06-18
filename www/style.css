@@ -45,9 +45,6 @@ html, body {
     flex           : 0 1 150px;
     justify-content: center;
     height         : 150px;
-    max-width      : 700px;
-    align-self     : center;
-    width          : 90%;
 }
 
 .launch:after {
@@ -75,7 +72,7 @@ html, body {
     display   : flex;
     align-self: center;
     flex-flow : column;
-    flex      : 4 1 0px;
+    flex      : 0 1 0px;
     text-align: left;
     padding   : 0 2em 0 0;
 }
@@ -111,19 +108,26 @@ html, body {
     background     : #EEE linear-gradient(#EEE 150px, #FFF);
     flex-wrap      : wrap;
     justify-content: center;
-    /* align-items    : stretch; */
+    align-items    : center;
     overflow       : auto;
     -webkit-overflow-scrolling: touch;
 }
 
-.stu2, .stu3 {
+.bottom-row .row {
+    display       : flex;
+    flex-direction: row;
+    align-items   : center;
+}
+
+.server {
     display        : flex;
-    flex           : 0 1 200px;
+    flex           : 0 1 300px;
     flex-flow      : column;
     border         : 2px solid rgb(235, 235, 235);
     border-radius  : 5px;
-    margin         : 20px;
-    min-width      : 330px;
+    margin         : 20px 2vw;
+    min-width      : 280px;
+    max-width      : 440px;
     padding-bottom : 10px;
     justify-content: center;
     min-height     : 367px;
@@ -131,11 +135,11 @@ html, body {
     box-shadow     : 0 0 0 4px #FFF inset;
 }
 
-.stu2 svg, .stu3 svg {
+.server svg {
     display   : flex;
-    flex      : 0 1 256px;
+    flex      : 1 1 200px;
     margin    : 0 auto 20px;
-    min-height: 128px;
+    max-width : 80%;
 }
 
 .bottom-row a {
@@ -147,19 +151,26 @@ html, body {
     font-size      : 16px;
 }
 
+
+.bottom-row a:before {
+    content: "▶︎ ";
+    color  :#FF931E;
+    visibility: hidden;
+}
+
 .bottom-row a:hover {
     background: rgba(0, 0, 0, 0.05);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
-.bottom-row a:before {
-    content: "▶︎ ";
-    color  :#FF931E;
+
+.bottom-row a:hover:before {
+    visibility: visible;
 }
 
 h3 {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     /* margin: 0; */
 }
 
@@ -181,32 +192,37 @@ h3 {
 .color-accent-1 { color: #005264; } 
 .fill-accent-1 { fill: #005264; }
 
-.enabled-false {
+.disabled, .enabled-0 {
     pointer-events: none;
 }
 
-.enabled-false *,
-.enabled-false a,
-.enabled-false a:before,
-.enabled-false .color-accent-1,
-.enabled-false .color-accent-2 {
-    color: #999;
+
+.disabled,
+.disabled *,
+.enabled-0,
+.enabled-0 *,
+.enabled-0 a,
+.enabled-0 a:before,
+a.enabled-0:before,
+.enabled-0 .color-accent-1,
+.enabled-0 .color-accent-2 {
+    color: #999 !important;
 }
 
-.enabled-false text, .enabled-false rect, .enabled-false path {
+.enabled-0 text, .enabled-0 rect, .enabled-0 path {
     fill: #AAA;
 }
 
-.enabled-false .label-accent-2 {
+.enabled-0 .label-accent-2 {
     background: #AAA;
-    color: #FFF;
+    color: #FFF !important;
 }
 
 .offline {
     text-shadow: none;
 }
 
-.enabled-true .offline {
+.enabled-1 .offline {
     display: none;
 }
 
@@ -221,4 +237,16 @@ h3 {
     align-content  : center;
     justify-content: center;
     font-size      : small;
+}
+
+@media (max-width: 1500px) {
+    .server {
+        flex           : 0 0 29vw;
+    }
+}
+
+@media (max-width: 640px) {
+    .server {
+        flex           : 0 0 90vw;
+    }
 }

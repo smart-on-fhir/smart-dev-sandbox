@@ -6,6 +6,6 @@ data/*
 
 # fhir-viewer/known-servers.js
 
-# www/index.html
+www/index.html
 # derby.log
 !*/.gitkeep
