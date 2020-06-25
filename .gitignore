@@ -2,10 +2,5 @@ node_modules
 
 patient-browser/*.json5
 
-data/*
-
-# fhir-viewer/known-servers.js
-
 www/index.html
-# derby.log
 !*/.gitkeep

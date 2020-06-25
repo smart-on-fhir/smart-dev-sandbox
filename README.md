@@ -1,7 +1,16 @@
 # SMART Dev Sandbox
-The SMART Dev Sandbox is an open source, Docker based version of the SMART Sandbox that can be installed locally on your machine to facilitate offline development and the use of custom data sets. **Please note that it is not designed for clinical use and should not be used to store or access patient medical data.**
+The SMART Dev Sandbox is an open source, Docker based version of the SMART Sandbox
+that can be installed locally on your machine to facilitate offline development and
+the use of custom data sets.
+**Please note that it is not designed for clinical use and should not be used to store or access patient medical data.**
 
-This tool supplements the free online sandbox at https://launch.smarthealthit.org and packages together the SMART launcher front end, a custom authentication server targeted at app development and testing, DSTU2 and STU3 FHIR servers based on the excellent http://hapifhir.io project, sample patient data, an integrated web based interface to browse these sample patients, and a web based FHIR data explorer. Additionally, these components can be set up individually from the SMART docker images repository at https://hub.docker.com/u/smartonfhir/ (for example, to run a local FHIR server you can type "docker run -it -p 8080:8080 smartonfhir/hapi:r3-sample"). 
+This tool supplements the free online sandbox at https://launch.smarthealthit.org
+and packages together the SMART launcher front end, DSTU2, STU3, R4 and R5 FHIR
+servers based on the excellent http://hapifhir.io project, sample patient data,
+an integrated web based interface to browse these sample patients, and a web based
+FHIR data explorer. Additionally, these components can be set up individually from
+the SMART docker images repository at https://hub.docker.com/u/smartonfhir/ (for
+example, to run a local FHIR server you can type `docker run -it -p 8080:8080 smartonfhir/hapi-5:r3-full`).
 
 Check it out and please open issues on Github if you have suggestions or run into any problems!
 

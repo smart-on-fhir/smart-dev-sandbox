@@ -15,8 +15,6 @@ networks:
 
 services:
 
-  
-
   r2: # ------------------------------------------------------------------------
     container_name: hapi-r2
     image: $R2_IMAGE
@@ -24,7 +22,7 @@ services:
       IP: $R2_IP
     volumes:
       - "r2-database:/usr/local/tomcat/target/database"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
     networks:
       sandbox:
         ipv4_address: $R2_IP
@@ -39,7 +37,7 @@ services:
       IP: $R3_IP
     volumes:
       - "r3-database:/usr/local/tomcat/target/database"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
     networks:
       sandbox:
         ipv4_address: $R3_IP
@@ -54,7 +52,7 @@ services:
       IP: $R4_IP
     volumes:
       - "r4-database:/usr/local/tomcat/target/database:delegated"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
     networks:
       sandbox:
         ipv4_address: $R4_IP
@@ -69,7 +67,7 @@ services:
       IP: $R5_IP
     volumes:
       - "r5-database:/usr/local/tomcat/target/database:delegated"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /tmp/hapi.properties && catalina.sh run"
+    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
     networks:
       sandbox:
         ipv4_address: $R5_IP
@@ -92,16 +90,10 @@ services:
     
   patient-browser: # -----------------------------------------------------------
     container_name: patient-browser
-    # image: smartonfhir/patient-browser:node
-    build:
-      context: ../patient-browser
-      dockerfile: ./Dockerfile
-    # ports:
-    #   - "${PATIENT_BROWSER_PORT}:80"
+    image: smartonfhir/patient-browser:latest
     volumes:
       - ./patient-browser:/usr/share/nginx/html/config
     environment:
-      # LAUNCHER_PORT   : "${LAUNCHER_PORT}"
       FHIR_VIEWER_IP: "${FHIR_VIEWER_IP}"
       R2_IP         : "${R2_IP}"
       R3_IP         : "${R3_IP}"
@@ -147,9 +139,7 @@ services:
 
   smart-launcher: # SMART Launcher ---------------------------------------------
     container_name: launcher
-    # image: smartonfhir/smart-launcher
-    build:
-      context: https://github.com/smart-on-fhir/smart-launcher.git
+    image: smartonfhir/smart-launcher:latest
     environment:
       NODE_ENV               : "production"
       LAUNCHER_BASE_URL      : "http://${LAUNCHER_IP}"
