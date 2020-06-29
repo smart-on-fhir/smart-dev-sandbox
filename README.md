@@ -14,7 +14,7 @@ example, to run a local FHIR server you can type `docker run -it -p 8080:8080 sm
 
 Check it out and please open issues on Github if you have suggestions or run into any problems!
 
-<img width="100%" alt="SMART Dev-Sandbox" src="https://user-images.githubusercontent.com/1119082/41301806-ea2b711c-6e36-11e8-8a40-4ee47286741d.png"/>
+<img width="100%" alt="SMART Dev-Sandbox" src="screenshot.png"/>
 
 ## System requirements
 The hardware requirements are mostly depending on the number and kind of HAPI servers that you want to run.
