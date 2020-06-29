@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <a target="_blank" href="http://$LAUNCHER_IP" class="launch enabled-$LAUNCHER_ENABLED">
+            <a target="_blank" href="http://$HOST:$LAUNCHER_PORT" class="launch enabled-$LAUNCHER_ENABLED">
                 <svg version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g>
                         <path class="fill-accent-1" d="M32,5.815c0,0-10.073,7.816-10.073,27.016c0,12.314,3.724,20.013,8.573,21.329V41.766c0-0.828,0.671-1.5,1.5-1.5   s1.5,0.672,1.5,1.5V54.16c4.849-1.315,8.573-9.015,8.573-21.329C42.073,13.409,32,5.815,32,5.815z M31.882,20.633   c-1.729,0-3.418-0.155-4.914-0.438c1.465-4.721,3.531-7.901,5.051-9.761c1.516,1.837,3.572,4.989,5.027,9.715   C35.492,20.463,33.712,20.633,31.882,20.633z"/>
@@ -49,11 +49,11 @@
                             </g>
                         </g>
                     </svg>
-                    <a target="_blank" href="http://$PATIENT_BROWSER_IP/index.html?config=r5-local" class="disabled">Browse Sample Patients</a>
-                    <a target="_blank" href="http://$FHIR_VIEWER_IP/index.html?dark&url=http%3A%2F%2F$R5_IP%3A8080%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
-                    <a target="_blank" href="http://$R5_IP:8080/hapi-fhir-jpaserver">Open HAPI Server UI</a>
-                    <a target="_blank" href="http://$R5_IP:8080/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
-                    <a target="_blank" href="http://$LAUNCHER_IP/index.html?auth_error=&fhir_version_1=r5&fhir_version_2=r5" class="disabled">Launch a SMART App</a>
+                    <a target="_blank" href="http://$HOST:$PATIENT_BROWSER_PORT/index.html?config=r5-local" class="disabled">Browse Sample Patients</a>
+                    <a target="_blank" href="http://$HOST:$FHIR_VIEWER_PORT/index.html?dark&url=http%3A%2F%2F$HOST%3A$R5_PORT%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
+                    <a target="_blank" href="http://$HOST:$R5_PORT/hapi-fhir-jpaserver">Open HAPI Server UI</a>
+                    <a target="_blank" href="http://$HOST:$R5_PORT/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
+                    <a target="_blank" href="http://$HOST:$LAUNCHER_PORT/index.html?auth_error=&fhir_version_1=r5&fhir_version_2=r5" class="disabled">Launch a SMART App</a>
                 </div>
                 <div class="server enabled-$R4_ENABLED">
                     <h3 class="color-accent-1">FHIR <span class="label label-accent-2">R4</span> Server</h3>
@@ -80,11 +80,11 @@
                             </g>
                         </g>
                     </svg>
-                    <a target="_blank" href="http://$PATIENT_BROWSER_IP/index.html?config=r4-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
-                    <a target="_blank" href="http://$FHIR_VIEWER_IP/index.html?dark&url=http%3A%2F%2F$R4_IP%3A8080%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
-                    <a target="_blank" href="http://$R4_IP:8080/hapi-fhir-jpaserver">Open HAPI Server UI</a>
-                    <a target="_blank" href="http://$R4_IP:8080/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
-                    <a target="_blank" href="http://$LAUNCHER_IP/index.html?auth_error=&fhir_version_1=r4&fhir_version_2=r4" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
+                    <a target="_blank" href="http://$HOST:$PATIENT_BROWSER_PORT/index.html?config=r4-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
+                    <a target="_blank" href="http://$HOST:$FHIR_VIEWER_PORT/index.html?dark&url=http%3A%2F%2F$HOST%3A$R4_PORT%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
+                    <a target="_blank" href="http://$HOST:$R4_PORT/hapi-fhir-jpaserver">Open HAPI Server UI</a>
+                    <a target="_blank" href="http://$HOST:$R4_PORT/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
+                    <a target="_blank" href="http://$HOST:$LAUNCHER_PORT/index.html?auth_error=&fhir_version_1=r4&fhir_version_2=r4" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
                 </div>
                 <div class="server enabled-$R3_ENABLED">
                     <h3 class="color-accent-1">FHIR <span class="label label-accent-2">STU3</span> Server</h3>
@@ -111,11 +111,11 @@
                             </g>
                         </g>
                     </svg>
-                    <a target="_blank" href="http://$PATIENT_BROWSER_IP/index.html?config=r3-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
-                    <a target="_blank" href="http://$FHIR_VIEWER_IP/index.html?dark&url=http%3A%2F%2F$R3_IP%3A8080%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
-                    <a target="_blank" href="http://$R3_IP:8080/hapi-fhir-jpaserver">Open HAPI Server UI</a>
-                    <a target="_blank" href="http://$R3_IP:8080/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
-                    <a target="_blank" href="http://$LAUNCHER_IP/index.html?auth_error=&fhir_version_1=r3&fhir_version_2=r3" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
+                    <a target="_blank" href="http://$HOST:$PATIENT_BROWSER_PORT/index.html?config=r3-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
+                    <a target="_blank" href="http://$HOST:$FHIR_VIEWER_PORT/index.html?dark&url=http%3A%2F%2F$HOST%3A$R3_PORT%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
+                    <a target="_blank" href="http://$HOST:$R3_PORT/hapi-fhir-jpaserver">Open HAPI Server UI</a>
+                    <a target="_blank" href="http://$HOST:$R3_PORT/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
+                    <a target="_blank" href="http://$HOST:$LAUNCHER_PORT/index.html?auth_error=&fhir_version_1=r3&fhir_version_2=r3" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
                 </div>
                 <div class="server enabled-$R2_ENABLED">
                     <h3 class="color-accent-1">FHIR <span class="label label-accent-2">DSTU2</span> Server</h3>
@@ -142,11 +142,11 @@
                             </g>
                         </g>
                     </svg>
-                    <a target="_blank" href="http://$PATIENT_BROWSER_IP/index.html?config=r2-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
-                    <a target="_blank" href="http://$FHIR_VIEWER_IP/index.html?dark&url=http%3A%2F%2F$R2_IP%3A8080%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
-                    <a target="_blank" href="http://$R2_IP:8080/hapi-fhir-jpaserver">Open HAPI Server UI</a>
-                    <a target="_blank" href="http://$R2_IP:8080/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
-                    <a target="_blank" href="http://$LAUNCHER_IP/index.html?auth_error=&fhir_version_1=r2&fhir_version_2=r2" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
+                    <a target="_blank" href="http://$HOST:$PATIENT_BROWSER_PORT/index.html?config=r2-local" class="enabled-$PATIENT_BROWSER_ENABLED">Browse Sample Patients</a>
+                    <a target="_blank" href="http://$HOST:$FHIR_VIEWER_PORT/index.html?dark&url=http%3A%2F%2F$HOST%3A$R2_PORT%2Fhapi-fhir-jpaserver%2Ffhir%2FPatient" class="enabled-$FHIR_VIEWER_ENABLED">Explore FHIR Data</a>
+                    <a target="_blank" href="http://$HOST:$R2_PORT/hapi-fhir-jpaserver">Open HAPI Server UI</a>
+                    <a target="_blank" href="http://$HOST:$R2_PORT/hapi-fhir-jpaserver/fhir/metadata">View in Web Browser</a>
+                    <a target="_blank" href="http://$HOST:$LAUNCHER_PORT/index.html?auth_error=&fhir_version_1=r2&fhir_version_2=r2" class="enabled-$LAUNCHER_ENABLED">Launch a SMART App</a>
                 </div>
             </div>
             <div class="footer">

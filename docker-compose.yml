@@ -1,17 +1,13 @@
 version: '2.2'
 
+# We create one volume for each supported FHIR version. These volumes will
+# contain and persist the H2 database file
 volumes:
   r2-database:
   r3-database:
   r4-database:
   r5-database:
 
-networks:
-  sandbox:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.38.0.0/16
 
 services:
 
@@ -19,28 +15,32 @@ services:
     container_name: hapi-r2
     image: $R2_IMAGE
     environment:
-      IP: $R2_IP
+      PORT: $R2_PORT
+    ports:
+      - $R2_PORT:8080
     volumes:
       - "r2-database:/usr/local/tomcat/target/database"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
-    networks:
-      sandbox:
-        ipv4_address: $R2_IP
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
     cpu_count: $R2_CPU_CORES
     mem_limit: $R2_MEMORY
-    scale: $R2_ENABLED
+    scale    : $R2_ENABLED
 
   r3: # ------------------------------------------------------------------------
     container_name: hapi-r3
     image: $R3_IMAGE
     environment:
-      IP: $R3_IP
+      PORT: $R3_PORT
+    ports:
+      - $R3_PORT:8080
     volumes:
       - "r3-database:/usr/local/tomcat/target/database"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
-    networks:
-      sandbox:
-        ipv4_address: $R3_IP
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
     cpu_count: $R3_CPU_CORES
     mem_limit: $R3_MEMORY
     scale: $R3_ENABLED
@@ -49,13 +49,16 @@ services:
     container_name: hapi-r4
     image: $R4_IMAGE
     environment:
-      IP: $R4_IP
+      PORT: $R4_PORT
+      HOST: $HOST
+    ports:
+      - $R4_PORT:8080
     volumes:
       - "r4-database:/usr/local/tomcat/target/database:delegated"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
-    networks:
-      sandbox:
-        ipv4_address: $R4_IP
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
     cpu_count: $R4_CPU_CORES
     mem_limit: $R4_MEMORY
     scale: $R4_ENABLED
@@ -64,13 +67,15 @@ services:
     container_name: hapi-r5
     image: $R5_IMAGE
     environment:
-      IP: $R5_IP
+      PORT: $R5_PORT
+    ports:
+      - $R5_PORT:8080
     volumes:
       - "r5-database:/usr/local/tomcat/target/database:delegated"
-    command: sh -c "envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties && catalina.sh run"
-    networks:
-      sandbox:
-        ipv4_address: $R5_IP
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
     cpu_count: $R5_CPU_CORES
     mem_limit: $R5_MEMORY
     scale: $R5_ENABLED
@@ -78,15 +83,9 @@ services:
   fhir-viewer: # ---------------------------------------------------------------
     container_name: fhir-viewer
     image: smartonfhir/fhir-viewer
-    volumes:
-      - ./fhir-viewer:/usr/share/nginx/html/config
-    environment:
-      HOST: "${FHIR_VIEWER_IP}"
-    command: sh -c "envsubst < /usr/share/nginx/html/config/known-servers.tpl > /usr/share/nginx/html/known-servers.js && nginx -g 'daemon off;'"
-    networks:
-      sandbox:
-        ipv4_address: $FHIR_VIEWER_IP
     scale: $FHIR_VIEWER_ENABLED
+    ports:
+      - "${FHIR_VIEWER_PORT}:80"
     
   patient-browser: # -----------------------------------------------------------
     container_name: patient-browser
@@ -94,20 +93,20 @@ services:
     volumes:
       - ./patient-browser:/usr/share/nginx/html/config
     environment:
-      FHIR_VIEWER_IP: "${FHIR_VIEWER_IP}"
-      R2_IP         : "${R2_IP}"
-      R3_IP         : "${R3_IP}"
-      R4_IP         : "${R4_IP}"
-      R5_IP         : "${R5_IP}"
+      HOST            : "${HOST}"
+      FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
+      R2_PORT         : "${R2_PORT}"
+      R3_PORT         : "${R3_PORT}"
+      R4_PORT         : "${R4_PORT}"
+      R5_PORT         : "${R5_PORT}"
+    ports:
+      - $PATIENT_BROWSER_PORT:80
     command: ["sh", "-c", "
       envsubst < /usr/share/nginx/html/config/r2.tpl > \/usr/share/nginx/html/config/r2-local.json5 &&
       envsubst < /usr/share/nginx/html/config/r3.tpl > \/usr/share/nginx/html/config/r3-local.json5 &&
       envsubst < /usr/share/nginx/html/config/r4.tpl > \/usr/share/nginx/html/config/r4-local.json5 &&
       envsubst < /usr/share/nginx/html/config/r5.tpl > \/usr/share/nginx/html/config/r5-local.json5 &&
       nginx -g 'daemon off;'"]
-    networks:
-      sandbox:
-        ipv4_address: $PATIENT_BROWSER_IP
     scale: $PATIENT_BROWSER_ENABLED
 
   index: # ---------------------------------------------------------------------
@@ -115,14 +114,18 @@ services:
     image: nginx:alpine
     volumes:
       - ./www:/usr/share/nginx/html
+    ports:
+      - $CONTROL_PANEL_PORT:80
     environment:
-      R2_IP                  : "${R2_IP}"
-      R3_IP                  : "${R3_IP}"
-      R4_IP                  : "${R4_IP}"
-      R5_IP                  : "${R5_IP}"
-      PATIENT_BROWSER_IP     : "${PATIENT_BROWSER_IP}"
-      FHIR_VIEWER_IP         : "${FHIR_VIEWER_IP}"
-      LAUNCHER_IP            : "${LAUNCHER_IP}"
+      HOST                   : "${HOST}"
+      R2_PORT                : "${R2_PORT}"
+      R4_PORT                : "${R4_PORT}"
+      R3_PORT                : "${R3_PORT}"
+      R4_PORT                : "${R4_PORT}"
+      R5_PORT                : "${R5_PORT}"
+      PATIENT_BROWSER_PORT   : "${PATIENT_BROWSER_PORT}"
+      FHIR_VIEWER_PORT       : "${FHIR_VIEWER_PORT}"
+      LAUNCHER_PORT          : "${LAUNCHER_PORT}"
       R2_ENABLED             : "${R2_ENABLED}"
       R3_ENABLED             : "${R3_ENABLED}"
       R4_ENABLED             : "${R4_ENABLED}"
@@ -132,22 +135,20 @@ services:
       LAUNCHER_ENABLED       : "${LAUNCHER_ENABLED}"
       ISSUES_URL             : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
     command: sh -c "envsubst < /usr/share/nginx/html/template.html > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
-    networks:
-      sandbox:
-        ipv4_address: $CONTROL_PANEL_IP
     scale: $CONTROL_PANEL_ENABLED
 
-  smart-launcher: # SMART Launcher ---------------------------------------------
+  smart-launcher: # ------------------------------------------------------------
     container_name: launcher
     image: smartonfhir/smart-launcher:latest
     environment:
+      HOST                   : "${HOST}"
       NODE_ENV               : "production"
-      LAUNCHER_BASE_URL      : "http://${LAUNCHER_IP}"
-      BASE_URL               : "http://${LAUNCHER_IP}"
-      FHIR_SERVER_R2         : "http://${R2_IP}:8080/hapi-fhir-jpaserver/fhir"
-      FHIR_SERVER_R3         : "http://${R3_IP}:8080/hapi-fhir-jpaserver/fhir"
-      FHIR_SERVER_R4         : "http://${R4_IP}:8080/hapi-fhir-jpaserver/fhir"
-      FHIR_SERVER_R4         : "http://${R5_IP}:8080/hapi-fhir-jpaserver/fhir"
+      LAUNCHER_BASE_URL      : "http://${HOST}:${LAUNCHER_PORT}"
+      BASE_URL               : "http://${HOST}:${LAUNCHER_PORT}"
+      FHIR_SERVER_R2         : "http://${HOST}:${R2_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R3         : "http://${HOST}:${R3_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4         : "http://${HOST}:${R4_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4         : "http://${HOST}:${R5_PORT}/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R2_INTERNAL: "http://r2:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R3_INTERNAL: "http://r3:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R4_INTERNAL: "http://r4:8080/hapi-fhir-jpaserver/fhir"
@@ -158,13 +159,12 @@ services:
       PICKER_CONFIG_R3       : "r3-local"
       PICKER_CONFIG_R4       : "r4-local"
       PICKER_CONFIG_R5       : "r5-local"
-      PICKER_ORIGIN          : "http://${PATIENT_BROWSER_IP}"
+      PICKER_ORIGIN          : "http://${HOST}:${PATIENT_BROWSER_PORT}"
       STU2_ENABLED           : "${R2_ENABLED}"
       STU3_ENABLED           : "${R3_ENABLED}"
       STU4_ENABLED           : "${R4_ENABLED}"
       STU5_ENABLED           : "${R5_ENABLED}"
-    networks:
-      sandbox:
-        ipv4_address: $LAUNCHER_IP
+    ports:
+      - $LAUNCHER_PORT:80
     scale: $LAUNCHER_ENABLED
 

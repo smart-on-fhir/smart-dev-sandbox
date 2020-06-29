@@ -1,7 +1,7 @@
 {
     server: {
         type: 'DSTU-2',
-        url: 'http://$R2_IP:8080/hapi-fhir-jpaserver/fhir',
+        url: 'http://$HOST:$R2_PORT/hapi-fhir-jpaserver/fhir',
         tags: [
             {
                 key: 'smart-8-2017',
@@ -3252,7 +3252,7 @@
     renderSelectedOnly: false,
     fhirViewer: {
         enabled: true,
-        url: 'http://$FHIR_VIEWER_IP/index.html',
+        url: 'http://$HOST:$FHIR_VIEWER_PORT/index.html',
         param: 'url',
     },
     outputMode: 'id-list',

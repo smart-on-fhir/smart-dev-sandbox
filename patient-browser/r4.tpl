@@ -1,7 +1,7 @@
 {
     server: {
         type: 'R4',
-        url: 'http://$R4_IP:8080/hapi-fhir-jpaserver/fhir',
+        url: 'http://$HOST:$R4_PORT/hapi-fhir-jpaserver/fhir',
         tags: [
             {
                 key: 'synthea-5-2019',
@@ -1040,7 +1040,7 @@
     renderSelectedOnly: false,
     fhirViewer: {
         enabled: true,
-        url: 'http://$FHIR_VIEWER_IP/index.html',
+        url: '$HOST:$FHIR_VIEWER_PORT/index.html',
         param: 'url',
     },
     outputMode: 'id-list',
