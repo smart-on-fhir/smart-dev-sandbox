@@ -10,7 +10,7 @@
             {
                 key: 'synthea-8-2017',
                 label: 'Synthea sample patients',
-            }
+            },
         ],
         conditions: {
             '568005': {

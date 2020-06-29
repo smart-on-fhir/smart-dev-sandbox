@@ -14,7 +14,7 @@
             {
                 key: 'pro-7-2017',
                 label: 'PRO (patient reported outcomes) sample patients',
-            }
+            },
         ],
         conditions: {
             '568005': {

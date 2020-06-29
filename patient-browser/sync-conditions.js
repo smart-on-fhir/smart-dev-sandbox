@@ -8,15 +8,13 @@ const FS      = require("fs");
 const app     = require("commander");
 const JSON5   = require("json5");
 
-const CFG = {};
+const CFG  = {};
+const HOST = process.env.HOST || "localhost";
 
 [2, 3, 4, 5].forEach(v => {
     CFG[`r${v}`] = {
-        server: `http://${process.env[`R${v}_IP`]}:8080/hapi-fhir-jpaserver/fhir`,
-        pickerConfigFile: [
-            // `/usr/share/nginx/html/config/r${v}.tpl`,
-            `./r${v}.tpl`
-        ]
+        server: `http://${HOST}:${process.env[`R${v}_PORT`]}/hapi-fhir-jpaserver/fhir`,
+        pickerConfigFile: [`./r${v}.tpl`]
     };
 });
 
@@ -24,7 +22,7 @@ const CFG = {};
  
 app
     .version('0.1.0')
-    .option('-s, --stu <string>', 'Fhir version "stu2" 0r "stu3"')
+    .option('-s, --stu <string>', 'Numeric FHIR version -  2, 3, 4 or 5')
     .option('-p, --proxy <string>' , 'Proxy (if needed)')
     .parse(process.argv);
 
