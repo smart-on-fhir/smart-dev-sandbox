@@ -6,8 +6,6 @@ volumes:
   r2-database:
   r3-database:
   r4-database:
-  r5-database:
-
 
 services:
 
@@ -63,23 +61,6 @@ services:
     mem_limit: $R4_MEMORY
     scale: $R4_ENABLED
 
-  r5: # ------------------------------------------------------------------------
-    container_name: hapi-r5
-    image: $R5_IMAGE
-    environment:
-      PORT: $R5_PORT
-    ports:
-      - $R5_PORT:8080
-    volumes:
-      - "r5-database:/usr/local/tomcat/target/database:delegated"
-    command: ["sh", "-c", "
-      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
-      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
-      catalina.sh run"]
-    cpu_count: $R5_CPU_CORES
-    mem_limit: $R5_MEMORY
-    scale: $R5_ENABLED
-
   fhir-viewer: # ---------------------------------------------------------------
     container_name: fhir-viewer
     image: smartonfhir/fhir-viewer
@@ -98,14 +79,12 @@ services:
       R2_PORT         : "${R2_PORT}"
       R3_PORT         : "${R3_PORT}"
       R4_PORT         : "${R4_PORT}"
-      R5_PORT         : "${R5_PORT}"
     ports:
       - $PATIENT_BROWSER_PORT:80
     command: ["sh", "-c", "
       envsubst < /usr/share/nginx/html/config/r2.tpl > \/usr/share/nginx/html/config/r2-local.json5 &&
       envsubst < /usr/share/nginx/html/config/r3.tpl > \/usr/share/nginx/html/config/r3-local.json5 &&
       envsubst < /usr/share/nginx/html/config/r4.tpl > \/usr/share/nginx/html/config/r4-local.json5 &&
-      envsubst < /usr/share/nginx/html/config/r5.tpl > \/usr/share/nginx/html/config/r5-local.json5 &&
       nginx -g 'daemon off;'"]
     scale: $PATIENT_BROWSER_ENABLED
 
@@ -122,14 +101,12 @@ services:
       R4_PORT                : "${R4_PORT}"
       R3_PORT                : "${R3_PORT}"
       R4_PORT                : "${R4_PORT}"
-      R5_PORT                : "${R5_PORT}"
       PATIENT_BROWSER_PORT   : "${PATIENT_BROWSER_PORT}"
       FHIR_VIEWER_PORT       : "${FHIR_VIEWER_PORT}"
       LAUNCHER_PORT          : "${LAUNCHER_PORT}"
       R2_ENABLED             : "${R2_ENABLED}"
       R3_ENABLED             : "${R3_ENABLED}"
       R4_ENABLED             : "${R4_ENABLED}"
-      R5_ENABLED             : "${R5_ENABLED}"
       PATIENT_BROWSER_ENABLED: "${PATIENT_BROWSER_ENABLED}"
       FHIR_VIEWER_ENABLED    : "${FHIR_VIEWER_ENABLED}"
       LAUNCHER_ENABLED       : "${LAUNCHER_ENABLED}"
@@ -148,22 +125,18 @@ services:
       FHIR_SERVER_R2         : "http://${HOST}:${R2_PORT}/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R3         : "http://${HOST}:${R3_PORT}/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R4         : "http://${HOST}:${R4_PORT}/hapi-fhir-jpaserver/fhir"
-      FHIR_SERVER_R4         : "http://${HOST}:${R5_PORT}/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R2_INTERNAL: "http://r2:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R3_INTERNAL: "http://r3:8080/hapi-fhir-jpaserver/fhir"
       FHIR_SERVER_R4_INTERNAL: "http://r4:8080/hapi-fhir-jpaserver/fhir"
-      FHIR_SERVER_R5_INTERNAL: "http://r5:8080/hapi-fhir-jpaserver/fhir"
       DISABLE_SANDBOXES      : "1"
       CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
       PICKER_CONFIG_R2       : "r2-local"
       PICKER_CONFIG_R3       : "r3-local"
       PICKER_CONFIG_R4       : "r4-local"
-      PICKER_CONFIG_R5       : "r5-local"
       PICKER_ORIGIN          : "http://${HOST}:${PATIENT_BROWSER_PORT}"
       STU2_ENABLED           : "${R2_ENABLED}"
       STU3_ENABLED           : "${R3_ENABLED}"
       STU4_ENABLED           : "${R4_ENABLED}"
-      STU5_ENABLED           : "${R5_ENABLED}"
     ports:
       - $LAUNCHER_PORT:80
     scale: $LAUNCHER_ENABLED

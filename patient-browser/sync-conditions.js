@@ -11,7 +11,7 @@ const JSON5   = require("json5");
 const CFG  = {};
 const HOST = process.env.HOST || "localhost";
 
-[2, 3, 4, 5].forEach(v => {
+[2, 3, 4].forEach(v => {
     CFG[`r${v}`] = {
         server: `http://${HOST}:${process.env[`R${v}_PORT`]}/hapi-fhir-jpaserver/fhir`,
         pickerConfigFile: [`./r${v}.tpl`]
@@ -22,7 +22,7 @@ const HOST = process.env.HOST || "localhost";
  
 app
     .version('0.1.0')
-    .option('-s, --stu <string>', 'Numeric FHIR version -  2, 3, 4 or 5')
+    .option('-s, --stu <string>', 'Numeric FHIR version -  2, 3 or 4')
     .option('-p, --proxy <string>' , 'Proxy (if needed)')
     .parse(process.argv);
 
@@ -97,7 +97,7 @@ function getAllPages(options, cb, result = []) {
     });
 }
 
-if (["2", "3", "4", "5"].indexOf(app.stu) === -1) {
+if (["2", "3", "4"].indexOf(app.stu) === -1) {
     return app.help();
 }
 
