@@ -1,91 +1,143 @@
-version: '3.2'
+version: '2.2'
+
+# We create one volume for each supported FHIR version. These volumes will
+# contain and persist the H2 database file
+volumes:
+  r2-database:
+  r3-database:
+  r4-database:
+
 services:
 
-  smart-launcher: # SMART Launcher ---------------------------------------------
-    image: smartonfhir/smart-launcher
+  r2: # ------------------------------------------------------------------------
+    container_name: hapi-r2
+    image: $R2_IMAGE
     environment:
-      NODE_ENV               : "production"
-      LAUNCHER_BASE_URL      : "http://${HOST}:${LAUNCHER_PORT}"
-      BASE_URL               : "http://${HOST}:${LAUNCHER_PORT}"
-      FHIR_SERVER_R2         : "http://${HOST}:${HAPI_PORT_STU2}/baseDstu2"
-      FHIR_SERVER_R3         : "http://${HOST}:${HAPI_PORT_STU3}/baseDstu3"
-      FHIR_SERVER_R2_INTERNAL: "http://stu2:${HAPI_PORT_STU2}/baseDstu2"
-      FHIR_SERVER_R3_INTERNAL: "http://stu3:${HAPI_PORT_STU3}/baseDstu3"
-      DISABLE_SANDBOXES      : "1"
-      CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
-      PICKER_CONFIG_R2       : "dstu2-local"
-      PICKER_CONFIG_R3       : "stu3-local"
-      PICKER_ORIGIN          : "http://${HOST}:${PATIENT_BROWSER_PORT}"
-      STU2_ENABLED           : "${STU2_ENABLED}"
-      STU3_ENABLED           : "${STU3_ENABLED}"
+      PORT: $R2_PORT
     ports:
-      - "${LAUNCHER_PORT}:80"
-    depends_on:
-      - patient-browser
-      - fhir-viewer
-      - stu3
-      - stu2
-
-  stu3: # HAPI STU3 ------------------------------------------------------------
-    image: smartonfhir/hapi:r3-empty
-    environment:
-      PORT        : $HAPI_PORT_STU3
-      STU3_ENABLED: $STU3_ENABLED
-    ports:
-      - "${HAPI_PORT_STU3}:${HAPI_PORT_STU3}"
+      - $R2_PORT:8080
     volumes:
-      - "./${STU3_DATA_DIR}:/data:delegated"
-    command: bash -c "if ('$STU3_ENABLED' == 'true'); then bash /app/cmd; fi"
+      - "r2-database:/usr/local/tomcat/target/database"
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
+    cpu_count: $R2_CPU_CORES
+    mem_limit: $R2_MEMORY
+    scale    : $R2_ENABLED
 
-  stu2: # HAPI STU2 ------------------------------------------------------------
-    image: smartonfhir/hapi:r2-empty
+  r3: # ------------------------------------------------------------------------
+    container_name: hapi-r3
+    image: $R3_IMAGE
     environment:
-      PORT        : $HAPI_PORT_STU2
-      STU2_ENABLED: $STU2_ENABLED
+      PORT: $R3_PORT
     ports:
-      - "${HAPI_PORT_STU2}:${HAPI_PORT_STU2}"
+      - $R3_PORT:8080
     volumes:
-      - "./${STU2_DATA_DIR}:/data:delegated"
-    command: bash -c "if ('$STU2_ENABLED' == 'true'); then bash /app/cmd; fi"
+      - "r3-database:/usr/local/tomcat/target/database"
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
+    cpu_count: $R3_CPU_CORES
+    mem_limit: $R3_MEMORY
+    scale: $R3_ENABLED
 
-  patient-browser: # Patient Browser -------------------------------------------
-    image: smartonfhir/patient-browser:node
+  r4: # ------------------------------------------------------------------------
+    container_name: hapi-r4
+    image: $R4_IMAGE
+    environment:
+      PORT: $R4_PORT
+      HOST: $HOST
     ports:
-      - "${PATIENT_BROWSER_PORT}:80"
+      - $R4_PORT:8080
+    volumes:
+      - "r4-database:/usr/local/tomcat/target/database:delegated"
+    command: ["sh", "-c", "
+      envsubst < /tmp/hapi.properties.tpl > /config/hapi.properties &&
+      envsubst < /tmp/server.xml > /usr/local/tomcat/conf/server.xml &&
+      catalina.sh run"]
+    cpu_count: $R4_CPU_CORES
+    mem_limit: $R4_MEMORY
+    scale: $R4_ENABLED
+
+  fhir-viewer: # ---------------------------------------------------------------
+    container_name: fhir-viewer
+    image: smartonfhir/fhir-viewer
+    scale: $FHIR_VIEWER_ENABLED
+    ports:
+      - "${FHIR_VIEWER_PORT}:80"
+    
+  patient-browser: # -----------------------------------------------------------
+    container_name: patient-browser
+    image: smartonfhir/patient-browser:latest
     volumes:
       - ./patient-browser:/usr/share/nginx/html/config
     environment:
-      LAUNCHER_PORT   : "${LAUNCHER_PORT}"
-      FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
-      HAPI_PORT_STU3  : "${HAPI_PORT_STU3}"
-      HAPI_PORT_STU2  : "${HAPI_PORT_STU2}"
       HOST            : "${HOST}"
-    command: sh -c "envsubst < /usr/share/nginx/html/config/dstu2-local.tpl > /usr/share/nginx/html/config/dstu2-local.json5 && envsubst < /usr/share/nginx/html/config/stu3-local.tpl > /usr/share/nginx/html/config/stu3-local.json5 && nginx -g 'daemon off;'"
-
-  fhir-viewer: # Fhir Viewer ---------------------------------------------------
-    image: smartonfhir/fhir-viewer
+      FHIR_VIEWER_PORT: "${FHIR_VIEWER_PORT}"
+      R2_PORT         : "${R2_PORT}"
+      R3_PORT         : "${R3_PORT}"
+      R4_PORT         : "${R4_PORT}"
     ports:
-      - "${FHIR_VIEWER_PORT}:80"
-    volumes:
-      - ./fhir-viewer:/usr/share/nginx/html/config
-    environment:
-      HOST: "${HOST}"
-    command: sh -c "envsubst < /usr/share/nginx/html/config/known-servers.tpl > /usr/share/nginx/html/known-servers.js && nginx -g 'daemon off;'"
+      - $PATIENT_BROWSER_PORT:80
+    command: ["sh", "-c", "
+      envsubst < /usr/share/nginx/html/config/r2.tpl > \/usr/share/nginx/html/config/r2-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r3.tpl > \/usr/share/nginx/html/config/r3-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r4.tpl > \/usr/share/nginx/html/config/r4-local.json5 &&
+      nginx -g 'daemon off;'"]
+    scale: $PATIENT_BROWSER_ENABLED
 
-  index: # Index page ----------------------------------------------------------
+  index: # ---------------------------------------------------------------------
+    container_name: home-page
     image: nginx:alpine
-    ports:
-      - "${CONTROL_PANEL_PORT}:80"
     volumes:
       - ./www:/usr/share/nginx/html
+    ports:
+      - $CONTROL_PANEL_PORT:80
     environment:
-      LAUNCHER_PORT       : "${LAUNCHER_PORT}"
-      HAPI_PORT_STU2      : "${HAPI_PORT_STU2}"
-      HAPI_PORT_STU3      : "${HAPI_PORT_STU3}"
-      PATIENT_BROWSER_PORT: "${PATIENT_BROWSER_PORT}"
-      FHIR_VIEWER_PORT    : "${FHIR_VIEWER_PORT}"
-      STU2_ENABLED        : "${STU2_ENABLED}"
-      STU3_ENABLED        : "${STU3_ENABLED}"
-      HOST                : "${HOST}"
-      ISSUES_URL          : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
+      HOST                   : "${HOST}"
+      R2_PORT                : "${R2_PORT}"
+      R4_PORT                : "${R4_PORT}"
+      R3_PORT                : "${R3_PORT}"
+      R4_PORT                : "${R4_PORT}"
+      PATIENT_BROWSER_PORT   : "${PATIENT_BROWSER_PORT}"
+      FHIR_VIEWER_PORT       : "${FHIR_VIEWER_PORT}"
+      LAUNCHER_PORT          : "${LAUNCHER_PORT}"
+      R2_ENABLED             : "${R2_ENABLED}"
+      R3_ENABLED             : "${R3_ENABLED}"
+      R4_ENABLED             : "${R4_ENABLED}"
+      PATIENT_BROWSER_ENABLED: "${PATIENT_BROWSER_ENABLED}"
+      FHIR_VIEWER_ENABLED    : "${FHIR_VIEWER_ENABLED}"
+      LAUNCHER_ENABLED       : "${LAUNCHER_ENABLED}"
+      ISSUES_URL             : "https://github.com/smart-on-fhir/smart-dev-sandbox/issues"
     command: sh -c "envsubst < /usr/share/nginx/html/template.html > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+    scale: $CONTROL_PANEL_ENABLED
+
+  smart-launcher: # ------------------------------------------------------------
+    container_name: launcher
+    image: smartonfhir/smart-launcher:latest
+    environment:
+      HOST                   : "${HOST}"
+      NODE_ENV               : "production"
+      LAUNCHER_BASE_URL      : "http://${HOST}:${LAUNCHER_PORT}"
+      BASE_URL               : "http://${HOST}:${LAUNCHER_PORT}"
+      FHIR_SERVER_R2         : "http://${HOST}:${R2_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R3         : "http://${HOST}:${R3_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4         : "http://${HOST}:${R4_PORT}/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R2_INTERNAL: "http://r2:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R3_INTERNAL: "http://r3:8080/hapi-fhir-jpaserver/fhir"
+      FHIR_SERVER_R4_INTERNAL: "http://r4:8080/hapi-fhir-jpaserver/fhir"
+      DISABLE_SANDBOXES      : "1"
+      CDS_SANDBOX_URL        : "https://sandbox.cds-hooks.org"
+      PICKER_CONFIG_R2       : "r2-local"
+      PICKER_CONFIG_R3       : "r3-local"
+      PICKER_CONFIG_R4       : "r4-local"
+      PICKER_ORIGIN          : "http://${HOST}:${PATIENT_BROWSER_PORT}"
+      STU2_ENABLED           : "${R2_ENABLED}"
+      STU3_ENABLED           : "${R3_ENABLED}"
+      STU4_ENABLED           : "${R4_ENABLED}"
+    ports:
+      - $LAUNCHER_PORT:80
+    scale: $LAUNCHER_ENABLED
+
