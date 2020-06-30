@@ -43,7 +43,8 @@ you may also have to delete previous containers and volumes as described below.
 	```sh
 	docker-compose up
 	```
-4. It might take a minute to start all the services.
+4. It might take some time to download all the images on the first run.
+   After that, it probably takes a minute to start all the services. 
 5. Open http://localhost:4000 in your browser to access the sandbox.
 
 ## Stop the Dev Sandbox
