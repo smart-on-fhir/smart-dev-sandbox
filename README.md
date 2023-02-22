@@ -144,3 +144,23 @@ directly. For example, to start just a local STU3 HAPI FHIR server, simply run:
 ```sh
 docker run -it -p 8080:8080 smartonfhir/hapi-5:r3-full
 ```
+
+### Running the Dev Sandbox with TLS
+
+In `docker-compose.yml`:
+
+* Change the values for `LAUNCHER_BASE_URL` and `BASE_URL` to `https`
+* Add a line in the `smart-launcher` section below `STU4_ENABLED`:
+
+    `SSL_PORT : ${LAUNCHER_PORT}`
+
+* change the ports line below that to:
+
+    `- $LAUNCHER_PORT:$LAUNCHER_PORT`
+
+In `www/template.html`:
+
+* Search and replace `http://$HOST:$LAUNCHER_PORT` to `https://$HOST:$LAUNCHER_PORT`
+
+And then `docker compose up` normally. Your launcher and fhir proxy will now be running with a self-signed certificate (that you'll have to approve of course).
+
