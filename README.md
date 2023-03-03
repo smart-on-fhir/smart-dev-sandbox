@@ -30,6 +30,11 @@ you may also have to delete previous containers and volumes as described below.
 
 ## Start the Dev Sandbox
 1. If you don't already have Docker on your system, download and install it from https://store.docker.com/search?type=edition&offering=community
+
+   *Note:* The default Docker runtime memory limit of 2 GB will not be sufficient for running all 3 HAPI servers
+   bundled with this distribution at the same time. We recommend that you set the memory limit of Docker to 4GB
+   or higher if you would like to run the servers in parallel (the default configuration of this dustribution).
+   
 2. If you don't already have Git on your system, download and install it from https://git-scm.com/downloads
 3. Clone this project 
 	```sh
