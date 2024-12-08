@@ -1,4 +1,4 @@
-version: '2.2'
+# version: '2.2'
 
 # We create one volume for each supported FHIR version. These volumes will
 # contain and persist the H2 database file
@@ -82,10 +82,11 @@ services:
     ports:
       - $PATIENT_BROWSER_PORT:80
     command: ["sh", "-c", "
-      envsubst < /usr/share/nginx/html/config/r2.tpl > \/usr/share/nginx/html/config/r2-local.json5 &&
-      envsubst < /usr/share/nginx/html/config/r3.tpl > \/usr/share/nginx/html/config/r3-local.json5 &&
-      envsubst < /usr/share/nginx/html/config/r4.tpl > \/usr/share/nginx/html/config/r4-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r2.tpl > /usr/share/nginx/html/config/r2-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r3.tpl > /usr/share/nginx/html/config/r3-local.json5 &&
+      envsubst < /usr/share/nginx/html/config/r4.tpl > /usr/share/nginx/html/config/r4-local.json5 &&
       nginx -g 'daemon off;'"]
+
     scale: $PATIENT_BROWSER_ENABLED
 
   index: # ---------------------------------------------------------------------
@@ -100,7 +101,7 @@ services:
       R2_PORT                : "${R2_PORT}"
       R4_PORT                : "${R4_PORT}"
       R3_PORT                : "${R3_PORT}"
-      R4_PORT                : "${R4_PORT}"
+      # R4_PORT                : "${R4_PORT}"
       PATIENT_BROWSER_PORT   : "${PATIENT_BROWSER_PORT}"
       FHIR_VIEWER_PORT       : "${FHIR_VIEWER_PORT}"
       LAUNCHER_PORT          : "${LAUNCHER_PORT}"
