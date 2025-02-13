@@ -25,7 +25,7 @@ need and give as much resources as you can to the remaining server(s).
 ## Configuration
 The sandbox behavior is determined on startup using environment variables. These variables are defined in the
 configuration file called `.env`. Once you make changes, you will need to restart the sandbox using 
-`docker-compose down` and `docker-compose up`. If you change the used databases (by selecting different HAPI images)
+`docker compose down` and `docker compose up -d`. If you change the used databases (by selecting different HAPI images)
 you may also have to delete previous containers and volumes as described below.
 
 ## Start the Dev Sandbox
@@ -41,7 +41,7 @@ you may also have to delete previous containers and volumes as described below.
 	``` 
 5. Start the Docker containers
 	```sh
-	docker-compose up
+	docker compose up -d
 	```
 4. It might take some time to download all the images on the first run.
    After that, it probably takes a minute to start all the services. 
@@ -57,8 +57,8 @@ Stopping hapi-r2         ... done
 Stopping patient-browser ... done
 Stopping home-page       ... done
 Stopping fhir-viewer     ... done
-``` 
-If you don't see this output, then you will have to stop the services manually. To do so, run `docker-compose down`.
+```
+If you don't see this output, then you will have to stop the services manually. To do so, run `docker compose down`.
 
 <!-- ======================================================================= -->
 
@@ -88,7 +88,7 @@ that created it first. For example for STU3 run:
 docker container rm hapi-r3
 docker volume rm smart-dev-sandbox_r3-database
 ```
-Then start the sandbox as usual using `docker-compose up`. **Note** that the same can also be used to reset
+Then start the sandbox as usual using `docker compose up -d`. **Note** that the same can also be used to reset
 a server to its initial state and quickly discard any changes that you have made to the data.
 
 
@@ -116,8 +116,8 @@ node sync-conditions -s 4
 
 # When done restart the sandbox
 cd ..
-docker-compose down
-docker-compose up
+docker compose down
+docker compose up -d
 ```
 
 ## Hosting the Sandbox
@@ -162,5 +162,5 @@ In `www/template.html`:
 
 * Search and replace `http://$HOST:$LAUNCHER_PORT` to `https://$HOST:$LAUNCHER_PORT`
 
-And then `docker compose up` normally. Your launcher and fhir proxy will now be running with a self-signed certificate (that you'll have to approve of course).
+And then `docker compose up -d` normally. Your launcher and fhir proxy will now be running with a self-signed certificate (that you'll have to approve of course).
 
